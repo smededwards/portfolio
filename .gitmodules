@@ -1,0 +1,8 @@
+[submodule "wp-content/plugins/mais"]
+	path = wp-content/plugins/mais
+	url = https://github.com/smededwards/mais.git
+	branch = main
+[submodule "wp-content/themes/menos"]
+	path = wp-content/themes/menos
+	url = https://github.com/smededwards/menos.git
+	branch = main
