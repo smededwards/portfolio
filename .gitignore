@@ -1,0 +1,49 @@
+# Ignore everything by default
+*
+!.gitignore
+!.gitmodules
+!README.md
+
+# Allow Git to track your theme and plugin
+!wp-content/
+!wp-content/themes/
+!wp-content/themes/menos/
+
+!wp-content/plugins/
+!wp-content/plugins/mais/
+
+# Do not ignore deploy.yml and workflow files
+!/.github/
+!/.github/workflows
+!/.github/workflows/deploy.yml
+
+# Ignore all other themes and plugins
+wp-content/themes/*
+!wp-content/themes/menos/
+
+wp-content/plugins/*
+!wp-content/plugins/mais/
+
+# Ignore WordPress uploads, cache, and logs
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+
+# Ignore dependency directories
+node_modules/
+vendor/
+
+# Ignore system files and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.sql
+*.sqlite
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.production
+.env.staging

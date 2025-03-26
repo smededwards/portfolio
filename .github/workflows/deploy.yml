@@ -1,0 +1,39 @@
+name: Deploy to Pressable
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PRESSABLE_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ssh.pressable.com >> ~/.ssh/known_hosts
+        env:
+          PRESSABLE_SSH_KEY: ${{ secrets.PRESSABLE_SSH_KEY }}
+
+      - name: Test SSH connection
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.PRESSABLE_SSH_USER }}@${{ secrets.PRESSABLE_SSH_HOST }} echo "SSH connection successful"
+
+      - name: Deploy to Pressable
+        run: |
+          rsync -avzr --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+          wp-content/themes/menos/ ${{ secrets.PRESSABLE_SSH_USER }}@${{ secrets.PRESSABLE_SSH_HOST }}:${{ secrets.PRESSABLE_SSH_PATH }}themes/menos \
+          && rsync -avzr --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+          wp-content/plugins/mais/ ${{ secrets.PRESSABLE_SSH_USER }}@${{ secrets.PRESSABLE_SSH_HOST }}:${{ secrets.PRESSABLE_SSH_PATH }}plugins/mais
+
+        env:
+          PRESSABLE_SSH_KEY: ${{ secrets.PRESSABLE_SSH_KEY }}
