@@ -1,0 +1,33 @@
+name: Assemble deployment candidate
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:2.8.12
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - run: php scripts/release-check.php
+      - run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+      - run: |
+          for package in web/app/themes/obel web/app/plugins/rune; do
+            (cd "$package" && npm ci && npm run lint:js && npm run lint:scss && npm run build && rm -rf node_modules) || exit
+          done
+      - name: Package code only
+        run: |
+          mkdir -p dist
+          tar --exclude='.env*' --exclude='*/uploads' --exclude='*/cache' --exclude='*/.git' --exclude='*/node_modules' -czf dist/portfolio.tar.gz config web vendor composer.json composer.lock
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-${{ github.sha }}
+          path: dist/portfolio.tar.gz
+          retention-days: 7
+      - run: echo 'Candidate only. Cloudways transport, shared paths and atomic activation require hosting details and separate deployment authorisation.'

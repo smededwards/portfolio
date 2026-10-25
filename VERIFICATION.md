@@ -1,0 +1,49 @@
+# Verification — 25 October 2026
+
+## Follow-up: trusted HTTPS setup
+
+Homebrew mkcert 1.4.4 is now installed. A certificate for `smededwards.dev` was generated, and mkcert confirmed that its CA is installed in the macOS system trust store. `/usr/bin/curl --resolve smededwards.dev:443:127.0.0.1` returned HTTP 200 with normal system certificate validation. Services are now running. Firefox trust is not configured (NSS certutil is absent).
+
+The user added the `/etc/hosts` entry manually. Both the homepage and WordPress login now return HTTP 200 using normal hostname resolution and system certificate validation. An additional `<www.smededwards.dev>` hosts entry includes literal angle brackets and is unnecessary for the configured hostname. A backup from before these changes is saved at ignored `.local/hosts.before-portfolio-20261025`. The original implementation-run results below describe the earlier state.
+
+## Implemented
+
+Four independent local repositories at `/Users/smededwards/Sites/portfolio/{portfolio,obel,aeon,rune}`. The site derives from official Bedrock 1.31.7. No parent repository, remote repositories, release tags or production deployment were created.
+
+The installed local site has Obel active, Aeon/Rune active as regular plugins, zero posts/pages and zero comments. No portfolio design or custom blocks have been invented.
+
+## Passed locally
+
+- Docker PHP-FPM/tools image build, with Composer 2.8.12, WP-CLI 2.12.0 and PHP 8.4.27.
+- Complete `make check`: PHP syntax checks; Bedrock PSR-12 checks; WPCS for custom PHP; JavaScript lint; SCSS lint; Obel and Rune production asset builds.
+- Strict Composer validation for all four projects and the isolated local manifest; independent Composer locks, plus npm locks for Obel and Rune.
+- Local package symlinks resolve to `/workspace/obel`, `/workspace/aeon` and `/workspace/rune` inside the PHP/tools mount layout.
+- Regenerating local Composer configuration leaves production `composer.json` and `composer.lock` byte-for-byte unchanged.
+- First WordPress installation succeeds, removes starter content and activates the intended packages. Repeating installation exits without altering existing content.
+- HTTPS homepage returns 200 and frontend CSS returns 200; HTTP redirects with 301. Verification used `curl --resolve` and an explicitly trusted temporary certificate, not host-wide certificate trust.
+- Development `wp_mail` delivery is captured by Mailpit, including after final image recreation.
+- WP-CLI database export and reimport of the freshly generated local database succeed.
+- A temporary database option and upload marker survive normal container recreation. Both markers were removed afterwards. The PHP-FPM runtime user can write uploads.
+- Final nginx 1.30.6 and MariaDB 10.11.19 images were checked against their official registry metadata and pinned by digest. PHP, Composer, Node and Mailpit are also pinned by digest. The final homepage was checked after image recreation.
+- Compose configuration and all five GitHub workflow YAML files parse successfully.
+- `make reset` without the explicit confirmation fails before any destructive operation.
+- Release check correctly rejects the bootstrap production lock because real tagged Obel/Aeon/Rune releases do not yet exist.
+- Git ignores local environments, certificates/private keys, generated local Composer files, passwords, backups and uploads. `git diff --check` passes.
+
+Verification logs are retained in ignored `portfolio/.local/verification-logs`. The initial local administrator is `smede`, email `admin@example.test`; its generated password is in ignored `portfolio/.local/admin-password`, mode 0600. No password was printed in the verification output.
+
+## Resolved environment issues
+
+Docker Desktop initially was stopped. Its VM disk was then full, causing misleading Debian package signature errors. With authorisation, unused build cache was cleared (11.86 GB); no existing images, containers or database volumes were deleted. The PHP image then built successfully. Existing unrelated WordPress services were left alone. The new Compose project uses `smededwards-portfolio` to avoid an older `portfolio` project name.
+
+Initial lint runs before the Node installation completed could not find `wp-scripts`; both packages were rerun successfully after installation. PHP template spacing and a strict Composer constraint warning were corrected before the complete successful `make check` run. npm emitted dependency deprecation notices from the WordPress scripts dependency tree; installed tooling still passed the required checks. Composer reported no dependency vulnerability advisories during resolution.
+
+## Remaining manual or unverified steps
+
+- Install mkcert on the host, trust its local CA, create certificates for the chosen hostname and add the hosts-file entry. None of those host changes were made or claimed as verified. The temporary verification certificate was removed.
+- Services were stopped after verification, preserving the database volume, uploads and local working files. After completing host HTTPS setup, run `make up`. There is no need to reinstall WordPress.
+- Development watch commands are provided but were not separately exercised; production builds were exercised.
+- GitHub Actions have not run remotely because no remote repositories were created. The assembled site CI job remains explicitly gated until real package repositories/tags exist and production dependencies are added.
+- First package releases, production Composer integration and its resulting full release lock require the actual separately authorised public repositories. The current production lock is an honest Bedrock-only bootstrap; local development uses the ignored path manifest and separate lock.
+- The manual deployment workflow assembles an artifact only and intentionally blocks in bootstrap state. Cloudways credentials, paths, runtime support, public document root, shared environment/uploads, transport and rollback remain unconfirmed and untested.
+- `smededwards.dev` is a local hostname preference, not an owned production domain. `local.smededwards.com` is the documented fallback.
