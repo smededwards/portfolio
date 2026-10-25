@@ -1,0 +1,42 @@
+name: Site checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  bedrock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:2.8.12
+      - run: composer validate --strict
+      - run: composer install --no-interaction --prefer-dist
+      - run: sh scripts/syntax.sh
+      - run: composer lint
+      - run: docker compose --env-file .env.example config --quiet
+      - name: Explain initial release bootstrap
+        if: vars.PACKAGES_PUBLISHED != 'true'
+        run: echo '::notice::Custom repositories and first tags are not published. Run make check locally. Enable PACKAGES_PUBLISHED after adding tagged requirements and committing composer.lock.'
+  assembled:
+    if: vars.PACKAGES_PUBLISHED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:2.8.12
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - run: php scripts/release-check.php
+      - run: composer install --no-interaction --prefer-dist
+      - run: |
+          for package in web/app/themes/obel web/app/plugins/rune; do
+            (cd "$package" && npm ci && npm run lint:js && npm run lint:scss && npm run build) || exit
+          done
+          for package in web/app/themes/obel web/app/plugins/aeon web/app/plugins/rune; do
+            (cd "$package" && composer install --no-interaction && composer lint) || exit
+          done

@@ -1,0 +1,24 @@
+server {
+    listen 80;
+    server_name __HOST__;
+    return 301 https://__HOST____PORT__$request_uri;
+}
+server {
+    listen 443 ssl;
+    server_name __HOST__;
+    ssl_certificate /etc/nginx/certs/local.pem;
+    ssl_certificate_key /etc/nginx/certs/local-key.pem;
+    root /workspace/site/web;
+    index index.php;
+    client_max_body_size 64m;
+    location / { try_files $uri $uri/ /index.php?$args; }
+    location ~ /\. { deny all; }
+    location ~* ^/app/uploads/.*\.php$ { deny all; }
+    location ~ \.php$ {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTPS on;
+        fastcgi_pass php:9000;
+    }
+}
