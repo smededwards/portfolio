@@ -16,7 +16,7 @@ portfolio/                 # directory only; do not initialise a parent reposito
 
 GitHub visibility: `portfolio` (the `site` working copy) is private; `obel`, `aeon` and `rune` are public.
 
-The working copies live at `/Users/smededwards/Sites/portfolio`. Each project has independent Git metadata. No GitHub repositories have been created. Bedrock's upstream MIT licence remains in `LICENSE.md`; custom packages declare GPL-2.0-or-later.
+The working copies live at `/Users/smededwards/Sites/portfolio`. Each project has independent Git metadata. The repositories are published as [portfolio](https://github.com/smededwards/portfolio) (private), [OBEL](https://github.com/smededwards/obel), [AEON](https://github.com/smededwards/aeon) and [RUNE](https://github.com/smededwards/rune) (public). Bedrock's upstream MIT licence remains in `LICENSE.md`; custom packages declare GPL-2.0-or-later.
 
 ## First run
 
@@ -90,24 +90,24 @@ It deletes the local database volume and uploads. Do not use it for routine rebu
 
 Each package has its own Composer lock, WPCS configuration and push/PR CI. OBEL and RUNE also have npm locks, JS/SCSS checks and production builds. The site uses PSR-12 for upstream Bedrock configuration and WPCS for its custom mu-plugin. PHP syntax checks exclude installed dependencies. No behavioural tests have been invented for empty scaffolds.
 
-`make check` checks the assembled local working copies. The site CI checks Bedrock automatically. Its assembled job is gated by repository variable `PACKAGES_PUBLISHED=true` until all three real repositories, initial tags and production requirements exist. That gate is explicit bootstrap status, not a claim that remote assembly has passed. When enabled it installs tagged packages, checks their standards and builds their assets.
+`make check` checks the assembled local working copies. Site CI checks Bedrock and the assembled site automatically on pushes and pull requests. It installs the tagged packages from the production lock, checks their standards and builds their assets. No repository-variable bootstrap gate is needed.
 
 To intentionally update package dependencies inside containers, use `docker compose run --rm -w /workspace/obel node npm install`, or `docker compose run --rm tools composer -d ../obel update`. Review and commit the changed locks. Routine installs use `npm ci` / `composer install`.
 
 Runtime pins are in `compose.yaml`, Dockerfile and workflows. PHP 8.4 is selected to match the current Cloudways direction; MariaDB 10.11 is supported there. Node 24 LTS satisfies WordPress scripts 37 requirements. Container image digests pin the verified image contents; PHP and database pins can be changed to match the actual hosting platform later. Host packages and Docker's internal apt dependencies should be refreshed deliberately for security updates.
 
-## First releases and production dependencies
+## Package releases and production dependencies
 
-The committed production lock initially contains Bedrock only. It deliberately does not claim unreleased custom packages exist. Local development works using the isolated path manifest. The manual deployment workflow and `make release-check` fail closed until all three packages are installed from real semantic version tags.
+OBEL, AEON and RUNE each have a real `v0.1.0` Git tag. The production Composer manifest uses their public GitHub VCS repositories and the `~0.1.0` release range; `composer.lock` fixes the exact tag and source commit used for deployment. Production installation uses downloaded package archives, with no local path repositories or symlinks.
 
-After publishing the private site repository and the three public package repositories:
+For subsequent releases:
 
-1. Publish `obel`, `aeon` and `rune` as independent public repositories. Confirm checks pass and create first real tags such as `v0.1.0`.
-2. Add three Composer VCS repositories with their actual GitHub URLs to the site's **production** `composer.json`. Add `smededwards/obel`, `smededwards/aeon`, `smededwards/rune` to `require`, using actual tagged versions. Do not add a `version` field to the package manifests; Composer reads Git tags.
-3. In a clean checkout or container, run `composer update` against the production manifest. Commit its exact `composer.lock`, with no `path` repositories or `dev-*` versions. Check package source exports include package.json, package-lock.json, sources and build configuration.
-4. Set `PACKAGES_PUBLISHED=true` in the site repository and verify the assembled job on a push/PR. Run the manual **Assemble deployment candidate** workflow; it installs production Composer dependencies, builds assets and uploads a code-only tarball.
+1. Make package changes through a PR using Conventional Commits. Confirm package CI passes and merge the reviewed change.
+2. Create and push the next appropriate semantic version tag in that package repository. Do not add a `version` field to its Composer manifest; Composer reads Git tags.
+3. In a clean site checkout/container, update the production requirement range if necessary, then run `composer update smededwards/obel` (or the corresponding package). Commit the changed production lock in a site PR. Review the tag and source reference.
+4. Confirm both site CI jobs pass. Run the manual **Assemble deployment candidate** workflow for the intended site ref to generate a code-only artifact. This workflow does not deploy it to Cloudways.
 
-Build output is ignored in source repositories and compiled by site CI. Package release tags must retain the build source and locks. `composer.lock` identifies package commits; package npm locks identify asset dependencies.
+Build output is ignored in source repositories and compiled by site CI. Package tags retain the source and dependency locks needed for building. Local development continues using the ignored path manifest and its separate lock, so neighbouring working copies provide immediate feedback. The production manifest and lock are never replaced by local overrides. Run `make release-check` to verify the production lock uses real semantic version releases.
 
 ## Cloudways deployment foundation
 
