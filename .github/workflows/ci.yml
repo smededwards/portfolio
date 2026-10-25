@@ -16,11 +16,7 @@ jobs:
       - run: sh scripts/syntax.sh
       - run: composer lint
       - run: docker compose --env-file .env.example config --quiet
-      - name: Explain initial release bootstrap
-        if: vars.PACKAGES_PUBLISHED != 'true'
-        run: echo '::notice::Custom repositories and first tags are not published. Run make check locally. Enable PACKAGES_PUBLISHED after adding tagged requirements and committing composer.lock.'
   assembled:
-    if: vars.PACKAGES_PUBLISHED == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

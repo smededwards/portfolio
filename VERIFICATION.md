@@ -1,5 +1,15 @@
 # Verification — 25 October 2026
 
+## Follow-up: tagged package integration
+
+Obel, Aeon and Rune now have public `v0.1.0` tags on the exact initial commits that passed package CI. The site production manifest references their public VCS repositories, and its production lock records the three exact release commits. Existing Bedrock/dependency versions were preserved.
+
+An isolated container checkout, with no GitHub credentials, downloaded all three tagged archives successfully. Strict Composer validation, the release gate, site PHP coding standards and PHP syntax checks passed there. The release packages are real directories in that checkout; the running local site retains symlinks to the neighbouring working copies. Refreshing the local overrides also succeeded without changing the production lock.
+
+The site CI bootstrap condition has been removed. Both Bedrock and assembled-package checks run automatically for the integration PR, alongside Conventional Commit validation. The manual artifact workflow can now package tagged dependencies; it still has no Cloudways upload or activation step. CI and artifact results are available on the integration PR and its Actions runs.
+
+The implementation-run results below are historical and describe the earlier bootstrap state.
+
 ## Follow-up: trusted HTTPS setup
 
 Homebrew mkcert 1.4.4 is now installed. A certificate for `smededwards.dev` was generated, and mkcert confirmed that its CA is installed in the macOS system trust store. `/usr/bin/curl --resolve smededwards.dev:443:127.0.0.1` returned HTTP 200 with normal system certificate validation. Services are now running. Firefox trust is not configured (NSS certutil is absent).

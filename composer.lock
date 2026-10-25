@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "113794b449fad72a12cbf3c43972728e",
+    "content-hash": "7f98b51bf1ac2b2a461899a6aac380d2",
     "packages": [
         {
             "name": "composer/installers",
@@ -704,6 +704,126 @@
                 "source": "https://github.com/roots/wp-config/tree/master"
             },
             "time": "2018-08-10T14:18:38+00:00"
+        },
+        {
+            "name": "smededwards/aeon",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smededwards/aeon.git",
+                "reference": "f64bf6306197458045b160ce80fd2c872df4e962"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smededwards/aeon/zipball/f64bf6306197458045b160ce80fd2c872df4e962",
+                "reference": "f64bf6306197458045b160ce80fd2c872df4e962",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.3"
+            },
+            "require-dev": {
+                "phpcompatibility/phpcompatibility-wp": "^2.1",
+                "wp-coding-standards/wpcs": "^3.3"
+            },
+            "type": "wordpress-plugin",
+            "scripts": {
+                "lint": [
+                    "phpcs"
+                ],
+                "lint:fix": [
+                    "phpcbf"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Aeon portfolio plugin",
+            "support": {
+                "source": "https://github.com/smededwards/aeon/tree/v0.1.0",
+                "issues": "https://github.com/smededwards/aeon/issues"
+            },
+            "time": "2026-10-25T18:35:00+00:00"
+        },
+        {
+            "name": "smededwards/obel",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smededwards/obel.git",
+                "reference": "ce4b8280aa3d753f4a161bedc3cd80f448a67d18"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smededwards/obel/zipball/ce4b8280aa3d753f4a161bedc3cd80f448a67d18",
+                "reference": "ce4b8280aa3d753f4a161bedc3cd80f448a67d18",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.3"
+            },
+            "require-dev": {
+                "phpcompatibility/phpcompatibility-wp": "^2.1",
+                "wp-coding-standards/wpcs": "^3.3"
+            },
+            "type": "wordpress-theme",
+            "scripts": {
+                "lint": [
+                    "phpcs"
+                ],
+                "lint:fix": [
+                    "phpcbf"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Obel portfolio theme",
+            "support": {
+                "source": "https://github.com/smededwards/obel/tree/v0.1.0",
+                "issues": "https://github.com/smededwards/obel/issues"
+            },
+            "time": "2026-10-25T18:35:00+00:00"
+        },
+        {
+            "name": "smededwards/rune",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smededwards/rune.git",
+                "reference": "49f3b12dc4973c1aad716c8a060ec6ae7bb73dd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smededwards/rune/zipball/49f3b12dc4973c1aad716c8a060ec6ae7bb73dd2",
+                "reference": "49f3b12dc4973c1aad716c8a060ec6ae7bb73dd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.3"
+            },
+            "require-dev": {
+                "phpcompatibility/phpcompatibility-wp": "^2.1",
+                "wp-coding-standards/wpcs": "^3.3"
+            },
+            "type": "wordpress-plugin",
+            "scripts": {
+                "lint": [
+                    "phpcs"
+                ],
+                "lint:fix": [
+                    "phpcbf"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Rune portfolio plugin",
+            "support": {
+                "source": "https://github.com/smededwards/rune/tree/v0.1.0",
+                "issues": "https://github.com/smededwards/rune/issues"
+            },
+            "time": "2026-10-25T18:35:00+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
