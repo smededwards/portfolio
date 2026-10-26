@@ -22,4 +22,4 @@ if ($env['WP_HOME'] !== $url || $env['WP_SITEURL'] !== "$url/wp") {
 @mkdir("$root/backups", 0700, true);
 $template = file_get_contents("$root/docker/nginx.conf.template");
 file_put_contents("$root/.docker/nginx.conf", str_replace(['__HOST__', '__PORT__'], [$host, $port === 443 ? '' : ':' . $port], $template));
-echo "Local configuration prepared. Supply trusted certificates before starting nginx.\n";
+fwrite(STDOUT, "Local configuration prepared. Supply trusted certificates before starting nginx.\n");
