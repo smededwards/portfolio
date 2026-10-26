@@ -8,7 +8,7 @@ Keep four separate repositories as neighbours:
 
 ```text
 portfolio/                 # directory only; do not initialise a parent repository
-  portfolio/                    # Bedrock, Docker, Make and site workflows
+  portfolio/               # Bedrock, Docker, Make and site workflows
   obel/                    # hybrid PHP theme, theme.json, patterns, Gutenberg
   aeon/                    # regular functionality plugin
   rune/                    # regular blocks plugin
@@ -137,3 +137,7 @@ See `VERIFICATION.md` for checks actually run and remaining manual steps.
 ## Contribution conventions
 
 Use Conventional Commit subjects and PR titles, for example `feat(theme): add navigation` or `fix(blocks): correct editor styles`. The repository's first commit is the explicit exception: `Initial Commit`. PR CI validates titles and every commit in the PR. See `AGENTS.md` for repository guidance.
+
+## Query Monitor
+
+Query Monitor is a Composer development dependency, installed by the local setup and omitted by `composer install --no-dev`. It is activated on the current local site. On a fresh local database, run `make wp ARGS="plugin activate query-monitor"`. While signed in as an administrator, use Query Monitor in the WordPress toolbar to inspect query timings, PHP errors, hooks and HTTP requests for the current page. Development configuration already enables `SAVEQUERIES` and `WP_DEBUG`.
