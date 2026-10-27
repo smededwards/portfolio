@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f98b51bf1ac2b2a461899a6aac380d2",
+    "content-hash": "68e70b12aa4bbe0ecf8055b0cbab343e",
     "packages": [
         {
             "name": "composer/installers",
@@ -707,16 +707,16 @@
         },
         {
             "name": "smededwards/aeon",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/smededwards/aeon.git",
-                "reference": "f64bf6306197458045b160ce80fd2c872df4e962"
+                "url": "git@github.com:smededwards/aeon.git",
+                "reference": "03bf6f14588d1d4c0467ddc5cc13f4346a3667dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/aeon/zipball/f64bf6306197458045b160ce80fd2c872df4e962",
-                "reference": "f64bf6306197458045b160ce80fd2c872df4e962",
+                "url": "https://api.github.com/repos/smededwards/aeon/zipball/03bf6f14588d1d4c0467ddc5cc13f4346a3667dc",
+                "reference": "03bf6f14588d1d4c0467ddc5cc13f4346a3667dc",
                 "shasum": ""
             },
             "require": {
@@ -727,6 +727,14 @@
                 "wp-coding-standards/wpcs": "^3.3"
             },
             "type": "wordpress-plugin",
+            "autoload": {
+                "classmap": [
+                    "class-plugin.php",
+                    "class-settings.php",
+                    "admin/",
+                    "features/"
+                ]
+            },
             "scripts": {
                 "lint": [
                     "phpcs"
@@ -738,25 +746,28 @@
             "license": [
                 "GPL-2.0-or-later"
             ],
+            "authors": [
+                {
+                    "name": "Michael Edwards",
+                    "homepage": "https://smededwards.com"
+                }
+            ],
             "description": "Aeon portfolio plugin",
-            "support": {
-                "source": "https://github.com/smededwards/aeon/tree/v0.1.0",
-                "issues": "https://github.com/smededwards/aeon/issues"
-            },
-            "time": "2026-10-25T18:35:00+00:00"
+            "homepage": "https://github.com/smededwards/aeon",
+            "time": "2026-10-27T19:24:03+00:00"
         },
         {
             "name": "smededwards/obel",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/smededwards/obel.git",
-                "reference": "ce4b8280aa3d753f4a161bedc3cd80f448a67d18"
+                "url": "git@github.com:smededwards/obel.git",
+                "reference": "e8747d39a2cad13bbbe14d886cab7cd6f93dfb48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/obel/zipball/ce4b8280aa3d753f4a161bedc3cd80f448a67d18",
-                "reference": "ce4b8280aa3d753f4a161bedc3cd80f448a67d18",
+                "url": "https://api.github.com/repos/smededwards/obel/zipball/e8747d39a2cad13bbbe14d886cab7cd6f93dfb48",
+                "reference": "e8747d39a2cad13bbbe14d886cab7cd6f93dfb48",
                 "shasum": ""
             },
             "require": {
@@ -778,25 +789,28 @@
             "license": [
                 "GPL-2.0-or-later"
             ],
+            "authors": [
+                {
+                    "name": "Michael Edwards",
+                    "homepage": "https://smededwards.com"
+                }
+            ],
             "description": "Obel portfolio theme",
-            "support": {
-                "source": "https://github.com/smededwards/obel/tree/v0.1.0",
-                "issues": "https://github.com/smededwards/obel/issues"
-            },
-            "time": "2026-10-25T18:35:00+00:00"
+            "homepage": "https://github.com/smededwards/obel",
+            "time": "2026-10-27T19:24:23+00:00"
         },
         {
             "name": "smededwards/rune",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/smededwards/rune.git",
-                "reference": "49f3b12dc4973c1aad716c8a060ec6ae7bb73dd2"
+                "url": "git@github.com:smededwards/rune.git",
+                "reference": "7af3455c724f28f90670011321cbd8647f8bdf07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/rune/zipball/49f3b12dc4973c1aad716c8a060ec6ae7bb73dd2",
-                "reference": "49f3b12dc4973c1aad716c8a060ec6ae7bb73dd2",
+                "url": "https://api.github.com/repos/smededwards/rune/zipball/7af3455c724f28f90670011321cbd8647f8bdf07",
+                "reference": "7af3455c724f28f90670011321cbd8647f8bdf07",
                 "shasum": ""
             },
             "require": {
@@ -807,6 +821,13 @@
                 "wp-coding-standards/wpcs": "^3.3"
             },
             "type": "wordpress-plugin",
+            "autoload": {
+                "classmap": [
+                    "class-plugin.php",
+                    "blocks/",
+                    "editor/"
+                ]
+            },
             "scripts": {
                 "lint": [
                     "phpcs"
@@ -818,12 +839,15 @@
             "license": [
                 "GPL-2.0-or-later"
             ],
+            "authors": [
+                {
+                    "name": "Michael Edwards",
+                    "homepage": "https://smededwards.com"
+                }
+            ],
             "description": "Rune portfolio plugin",
-            "support": {
-                "source": "https://github.com/smededwards/rune/tree/v0.1.0",
-                "issues": "https://github.com/smededwards/rune/issues"
-            },
-            "time": "2026-10-25T18:35:00+00:00"
+            "homepage": "https://github.com/smededwards/rune",
+            "time": "2026-10-27T19:23:56+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1578,6 +1602,68 @@
                 }
             ],
             "time": "2026-07-27T11:53:23+00:00"
+        },
+        {
+            "name": "wp-plugin/query-monitor",
+            "version": "4.1.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/query-monitor/",
+                "reference": "tags/4.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.1.0.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "John Blackbourn"
+                }
+            ],
+            "description": "Query Monitor is the developer tools panel for WordPress and WooCommerce.",
+            "homepage": "https://querymonitor.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/query-monitor/#developers",
+                "issues": "https://wordpress.org/support/plugin/query-monitor",
+                "source": "https://plugins.svn.wordpress.org/query-monitor"
+            },
+            "time": "2026-10-26T14:42:26+00:00"
+        },
+        {
+            "name": "wp-plugin/wp-sweep",
+            "version": "2.0.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-sweep/",
+                "reference": "tags/2.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-sweep.2.0.1.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Lester Chan"
+                }
+            ],
+            "description": "WP-Sweep allows you to clean up unused, orphaned and duplicated data in your WordPress. It also optimizes your database tables.",
+            "homepage": "https://lesterchan.net/portfolio/programming/php/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-sweep/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-sweep",
+                "source": "https://plugins.svn.wordpress.org/wp-sweep"
+            },
+            "time": "2026-08-24T12:40:45+00:00"
         }
     ],
     "aliases": [],

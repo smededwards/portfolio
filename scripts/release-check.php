@@ -13,4 +13,4 @@ foreach (['obel', 'aeon', 'rune'] as $name) {
         throw new RuntimeException("Release blocked: $name needs a real tagged release in composer.lock");
     }
 }
-echo "Tagged release dependencies verified.\n";
+fwrite(STDOUT, "Tagged release dependencies verified.\n");
