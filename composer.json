@@ -30,9 +30,9 @@
     "roots/bedrock-disallow-indexing": "^2.0",
     "roots/wordpress": "~7.1.3",
     "roots/wp-config": "^1.0",
-    "smededwards/aeon": "~0.1.0",
-    "smededwards/obel": "~0.1.0",
-    "smededwards/rune": "~0.1.0",
+    "smededwards/aeon": "~0.2.0",
+    "smededwards/obel": "~0.2.0",
+    "smededwards/rune": "~0.2.0",
     "vlucas/phpdotenv": "^5.0"
   },
   "require-dev": {
