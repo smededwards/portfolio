@@ -37,7 +37,8 @@
   },
   "require-dev": {
     "wp-coding-standards/wpcs": "^3.3",
-    "wp-plugin/query-monitor": "^4.0"
+    "wp-plugin/query-monitor": "^4.0",
+    "wp-plugin/wp-sweep": "^2.0"
   },
   "config": {
     "optimize-autoloader": true,

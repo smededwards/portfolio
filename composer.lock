@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "334f3a15a0c351f001008bdaf06b3df8",
+    "content-hash": "a0c04c9d7e0851250fab87f3d7ece2cb",
     "packages": [
         {
             "name": "composer/installers",
@@ -1581,15 +1581,15 @@
         },
         {
             "name": "wp-plugin/query-monitor",
-            "version": "4.0.7",
+            "version": "4.1.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/query-monitor/",
-                "reference": "tags/4.0.7"
+                "reference": "tags/4.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.0.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.1.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -1608,7 +1608,38 @@
                 "issues": "https://wordpress.org/support/plugin/query-monitor",
                 "source": "https://plugins.svn.wordpress.org/query-monitor"
             },
-            "time": "2026-06-20T20:20:53+00:00"
+            "time": "2026-10-26T14:42:26+00:00"
+        },
+        {
+            "name": "wp-plugin/wp-sweep",
+            "version": "2.0.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-sweep/",
+                "reference": "tags/2.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-sweep.2.0.1.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Lester Chan"
+                }
+            ],
+            "description": "WP-Sweep allows you to clean up unused, orphaned and duplicated data in your WordPress. It also optimizes your database tables.",
+            "homepage": "https://lesterchan.net/portfolio/programming/php/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-sweep/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-sweep",
+                "source": "https://plugins.svn.wordpress.org/wp-sweep"
+            },
+            "time": "2026-08-24T12:40:45+00:00"
         }
     ],
     "aliases": [],
