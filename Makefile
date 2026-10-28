@@ -34,19 +34,24 @@ db-export: ## Export DB using WP-CLI; FILE defaults to backups/database.sql
 	$(TOOLS) wp db export $(FILE)
 db-import: ## Explicitly replace DB content from FILE using WP-CLI
 	$(TOOLS) wp db import $(FILE)
-assets-install: ## Install locked theme and block dependencies
+assets-install: ## Install locked plugin, theme and block dependencies
+	$(DC) run --rm -w /workspace/aeon node npm ci
 	$(DC) run --rm -w /workspace/obel node npm ci
 	$(DC) run --rm -w /workspace/rune node npm ci
-assets-build: ## Build production theme and block assets
+assets-build: ## Build production plugin, theme and block assets
+	$(DC) run --rm -w /workspace/aeon node npm run build
 	$(DC) run --rm -w /workspace/obel node npm run build
 	$(DC) run --rm -w /workspace/rune node npm run build
-watch: ## Watch PACKAGE=obel or PACKAGE=rune
-	@test "$(PACKAGE)" = obel -o "$(PACKAGE)" = rune
+watch: ## Watch PACKAGE=aeon, PACKAGE=obel or PACKAGE=rune
+	@test "$(PACKAGE)" = aeon -o "$(PACKAGE)" = obel -o "$(PACKAGE)" = rune
 	$(DC) run --rm -w /workspace/$(PACKAGE) node npm run start
 check: ## PHP syntax, coding standards, JS/SCSS lint and production builds
 	$(TOOLS) sh scripts/syntax.sh
 	$(TOOLS) composer lint
 	$(TOOLS) sh -c 'for p in obel aeon rune; do composer -d ../$$p install --no-interaction && composer -d ../$$p lint || exit; done'
+	$(DC) run --rm -w /workspace/aeon node npm run lint:js
+	$(DC) run --rm -w /workspace/aeon node npm run lint:scss
+	$(DC) run --rm -w /workspace/aeon node npm run build
 	$(DC) run --rm -w /workspace/obel node npm run lint:js
 	$(DC) run --rm -w /workspace/obel node npm run lint:scss
 	$(DC) run --rm -w /workspace/rune node npm run lint:js
