@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68e70b12aa4bbe0ecf8055b0cbab343e",
+    "content-hash": "c8c9342ae099a213319997b59ccfe7d2",
     "packages": [
         {
             "name": "composer/installers",
@@ -1184,6 +1184,36 @@
                 }
             ],
             "time": "2026-10-25T16:26:19+00:00"
+        },
+        {
+            "name": "wp-plugin/breeze",
+            "version": "2.6.3",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/breeze/",
+                "reference": "tags/2.6.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/breeze.2.6.3.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Cloudways"
+                }
+            ],
+            "description": "Breeze is a caching plugin developed by Cloudways. Breeze uses advance caching systems to improve site loading times exponentially.",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/breeze/#developers",
+                "issues": "https://wordpress.org/support/plugin/breeze",
+                "source": "https://plugins.svn.wordpress.org/breeze"
+            },
+            "time": "2026-10-20T12:08:26+00:00"
         }
     ],
     "packages-dev": [
@@ -1605,15 +1635,15 @@
         },
         {
             "name": "wp-plugin/query-monitor",
-            "version": "4.1.0",
+            "version": "4.1.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/query-monitor/",
-                "reference": "tags/4.1.0"
+                "reference": "tags/4.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.1.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.1.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -1632,7 +1662,7 @@
                 "issues": "https://wordpress.org/support/plugin/query-monitor",
                 "source": "https://plugins.svn.wordpress.org/query-monitor"
             },
-            "time": "2026-10-26T14:42:26+00:00"
+            "time": "2026-10-27T01:27:02+00:00"
         },
         {
             "name": "wp-plugin/wp-sweep",

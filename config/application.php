@@ -13,6 +13,11 @@ use Roots\WPConfig\Config;
 
 use function Env\env;
 
+/**
+ * Enable WordPress's cache drop-in support for Breeze.
+ */
+Config::define('WP_CACHE', true);
+
 // CONVERT_* + STRIP_QUOTES + LOCAL_FIRST
 Env\Env::$options
     = Env\Env::CONVERT_BOOL
