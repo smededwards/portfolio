@@ -50,7 +50,7 @@ make install ADMIN_USER=smede ADMIN_EMAIL=you@example.com
 unset ADMIN_PASSWORD
 ```
 
-`make configure` generates random local database passwords and WordPress salts only when `.env` is absent. It validates the URL against the configured hostname and HTTPS port. `make setup` resolves the local Composer manifest, installs locked Node dependencies, builds assets and starts services; it does not install or reset a database. `make install` creates an empty site, removes only WordPress-generated starter posts/pages/comments, activates Obel, Aeon and Rune, and sets permalinks. On an installed database it preserves content and exits. If interrupted after core installation, inspect the database before manually completing activation/cleanup.
+`make configure` generates random local database passwords and WordPress salts only when `.env` is absent. It validates the URL against the configured hostname and HTTPS port. `make setup` resolves the local Composer manifest, installs locked Node dependencies for Aeon, Obel and Rune, builds their assets and starts services; it does not install or reset a database. `make install` creates an empty site, removes only WordPress-generated starter posts/pages/comments, activates Obel, Aeon and Rune, and sets permalinks. On an installed database it preserves content and exits. If interrupted after core installation, inspect the database before manually completing activation/cleanup.
 
 The initial local administrator is `smede`, with email `admin@example.test`; its generated password is stored in ignored `.local/admin-password` (mode 0600). Read that file locally to sign in, then set your preferred email/password using WP-CLI. The installation has already been performed in this workspace.
 
@@ -68,7 +68,7 @@ make composer ARGS='validate --strict'
 make composer-local
 make assets-install
 make assets-build
-make watch PACKAGE=obel       # another terminal for PACKAGE=rune
+make watch PACKAGE=aeon       # also supports PACKAGE=obel or PACKAGE=rune
 make check
 make db-export FILE=backups/before-change.sql
 make db-import FILE=backups/before-change.sql
@@ -88,7 +88,7 @@ It deletes the local database volume and uploads. Do not use it for routine rebu
 
 ## Checks and dependency updates
 
-Each package has its own Composer lock, WPCS configuration and push/PR CI. Obel and Rune also have npm locks, JS/SCSS checks and production builds. The site uses PSR-12 for upstream Bedrock configuration and WPCS for its custom mu-plugin. PHP syntax checks exclude installed dependencies. No behavioural tests have been invented for empty scaffolds.
+Each package has its own Composer lock, WPCS configuration and push/PR CI. Aeon, Obel and Rune have npm locks, JS/SCSS checks and production builds. The site uses PSR-12 for upstream Bedrock configuration and WPCS for its custom mu-plugin. PHP syntax checks exclude installed dependencies. No behavioural tests have been invented for empty scaffolds.
 
 `make check` checks the assembled local working copies. Site CI checks Bedrock and the assembled site automatically on pushes and pull requests. It installs the tagged packages from the production lock, checks their standards and builds their assets. No repository-variable bootstrap gate is needed.
 
