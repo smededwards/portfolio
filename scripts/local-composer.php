@@ -8,5 +8,9 @@ foreach (['obel', 'aeon', 'rune'] as $name) {
     }
     $config['require']["smededwards/$name"] = 'dev-main';
 }
+
+// Keep production-only plugins out of the local development installation.
+unset($config['require']['wp-plugin/breeze']);
+
 array_unshift($config['repositories'], ['type' => 'path', 'url' => '../*', 'options' => ['symlink' => true, 'versions' => ['smededwards/obel' => 'dev-main', 'smededwards/aeon' => 'dev-main', 'smededwards/rune' => 'dev-main']]]);
 file_put_contents("$root/composer.local.json", json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");

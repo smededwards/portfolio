@@ -141,3 +141,7 @@ Use Conventional Commit subjects and PR titles, for example `feat(theme): add na
 ## Query Monitor
 
 Query Monitor is a Composer development dependency, installed by the local setup and omitted by `composer install --no-dev`. It is activated on the current local site. On a fresh local database, run `make wp ARGS="plugin activate query-monitor"`. While signed in as an administrator, use Query Monitor in the WordPress toolbar to inspect query timings, PHP errors, hooks and HTTP requests for the current page. Development configuration already enables `SAVEQUERIES` and `WP_DEBUG`.
+
+## Breeze
+
+Breeze is a production Composer dependency. The local Composer manifest excludes it so local development does not install or activate its caching plugin.
