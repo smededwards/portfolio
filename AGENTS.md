@@ -33,8 +33,6 @@ Apply these principles while planning, implementing and reviewing every change a
 
 - Document each PHP and JavaScript function/method with an adequate DocBlock/JSDoc: a concise purpose, descriptions for each parameter, and a return description/type when applicable. Add documentation to callbacks when their purpose or contract is not self-evident. Use `//` for ordinary single-line comments; reserve DocBlocks/JSDoc blocks for function documentation and multiline block comments for longer notes or required WordPress translator comments.
 
-- Group SCSS declarations in this order: box model, background, layout, type, then other. Alphabetise properties within each group and separate non-empty groups with a blank line. Keep exceptions for fallbacks and shorthand/longhand dependencies together; document non-obvious exceptions. Apply this to new and edited rules, and refactor existing stylesheets separately.
-
 - Use BEM for custom HTML and SCSS classes: `block`, `block__element`, `block--modifier` or `block__element--modifier`. Preserve WordPress-owned classes and keep block metadata, saved markup and selectors aligned when renaming classes.
 
 - Prefer native WordPress blocks and editor controls wherever they meet the requirement. Use Page List for page navigation and Query Loop for dynamic card layouts; introduce custom blocks, shortcodes or renderers only for an agreed gap in core.
