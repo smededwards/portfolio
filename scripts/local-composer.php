@@ -1,5 +1,5 @@
 <?php
-/** Keep local path overrides and lock isolated from the deployment manifest. */
+// Keep local path overrides and lock isolated from the deployment manifest.
 $root = dirname(__DIR__);
 $config = json_decode(file_get_contents("$root/composer.json"), true, 512, JSON_THROW_ON_ERROR);
 foreach (['obel', 'aeon', 'rune'] as $name) {
