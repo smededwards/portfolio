@@ -1,5 +1,5 @@
 <?php
-/** Refuse to package the bootstrap state or development dependencies. */
+// Refuse to package the bootstrap state or development dependencies.
 $lock = json_decode(file_get_contents(__DIR__ . '/../composer.lock'), true, 512, JSON_THROW_ON_ERROR);
 $config = json_decode(file_get_contents(__DIR__ . '/../composer.json'), true, 512, JSON_THROW_ON_ERROR);
 foreach ($config['repositories'] as $repository) {
