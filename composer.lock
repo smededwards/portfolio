@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8c9342ae099a213319997b59ccfe7d2",
+    "content-hash": "f1c5e7fef71dac607e89f46d6169d8fd",
     "packages": [
         {
             "name": "composer/installers",
@@ -707,16 +707,16 @@
         },
         {
             "name": "smededwards/aeon",
-            "version": "v0.2.1",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smededwards/aeon.git",
-                "reference": "a9f92841613ce568df7380ffca878da6a828ce10"
+                "reference": "0cf8d93b97506f2a7aee39f3e1a6d8d594fbae4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/aeon/zipball/a9f92841613ce568df7380ffca878da6a828ce10",
-                "reference": "a9f92841613ce568df7380ffca878da6a828ce10",
+                "url": "https://api.github.com/repos/smededwards/aeon/zipball/0cf8d93b97506f2a7aee39f3e1a6d8d594fbae4f",
+                "reference": "0cf8d93b97506f2a7aee39f3e1a6d8d594fbae4f",
                 "shasum": ""
             },
             "require": {
@@ -754,20 +754,20 @@
             ],
             "description": "Aeon portfolio plugin",
             "homepage": "https://github.com/smededwards/aeon",
-            "time": "2026-10-28T09:54:53Z"
+            "time": "2026-11-01T11:39:53+00:00"
         },
         {
             "name": "smededwards/obel",
-            "version": "v0.2.1",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smededwards/obel.git",
-                "reference": "4d1dc60f48b75db2e1848cf0285a4f7d02c7f7cf"
+                "reference": "d78b38efb0e4cdb42df9a89da17bcfbbd7220313"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/obel/zipball/4d1dc60f48b75db2e1848cf0285a4f7d02c7f7cf",
-                "reference": "4d1dc60f48b75db2e1848cf0285a4f7d02c7f7cf",
+                "url": "https://api.github.com/repos/smededwards/obel/zipball/d78b38efb0e4cdb42df9a89da17bcfbbd7220313",
+                "reference": "d78b38efb0e4cdb42df9a89da17bcfbbd7220313",
                 "shasum": ""
             },
             "require": {
@@ -797,14 +797,14 @@
             ],
             "description": "Obel portfolio theme",
             "homepage": "https://github.com/smededwards/obel",
-            "time": "2026-10-28T09:54:54Z"
+            "time": "2026-11-01T11:39:53+00:00"
         },
         {
             "name": "smededwards/rune",
             "version": "v0.2.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:smededwards/rune.git",
+                "url": "https://github.com/smededwards/rune.git",
                 "reference": "eed1f8272104272d4640dd71d8a68dbb3f94c745"
             },
             "dist": {
@@ -847,7 +847,11 @@
             ],
             "description": "Rune portfolio plugin",
             "homepage": "https://github.com/smededwards/rune",
-            "time": "2026-10-28T09:54:50Z"
+            "support": {
+                "source": "https://github.com/smededwards/rune/tree/v0.2.1",
+                "issues": "https://github.com/smededwards/rune/issues"
+            },
+            "time": "2026-10-28T09:54:50+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1213,7 +1217,7 @@
                 "issues": "https://wordpress.org/support/plugin/breeze",
                 "source": "https://plugins.svn.wordpress.org/breeze"
             },
-            "time": "2026-10-20T12:08:26+00:00"
+            "time": "2026-10-20T12:02:13+00:00"
         }
     ],
     "packages-dev": [
@@ -1662,7 +1666,7 @@
                 "issues": "https://wordpress.org/support/plugin/query-monitor",
                 "source": "https://plugins.svn.wordpress.org/query-monitor"
             },
-            "time": "2026-10-27T01:27:02+00:00"
+            "time": "2026-10-27T01:21:23+00:00"
         },
         {
             "name": "wp-plugin/wp-sweep",
@@ -1693,7 +1697,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-sweep",
                 "source": "https://plugins.svn.wordpress.org/wp-sweep"
             },
-            "time": "2026-08-24T12:40:45+00:00"
+            "time": "2026-09-29T13:03:58+00:00"
         }
     ],
     "aliases": [],
