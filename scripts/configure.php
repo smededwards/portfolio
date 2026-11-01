@@ -1,5 +1,5 @@
 <?php
-/** Generate local-only configuration. Run in the tools container. */
+// Generate local-only configuration. Run in the tools container.
 $root = dirname(__DIR__);
 if (!file_exists("$root/.env")) {
     $env = file_get_contents("$root/.env.example");

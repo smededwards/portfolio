@@ -30,6 +30,9 @@ jobs:
       - run: php scripts/release-check.php
       - run: composer install --no-interaction --prefer-dist
       - run: |
+          if [ -f web/app/plugins/aeon/package.json ]; then
+            (cd web/app/plugins/aeon && npm ci && npm run lint:js && npm run lint:scss && npm run build) || exit
+          fi
           for package in web/app/themes/obel web/app/plugins/rune; do
             (cd "$package" && npm ci && npm run lint:js && npm run lint:scss && npm run build) || exit
           done

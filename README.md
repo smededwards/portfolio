@@ -1,6 +1,6 @@
-# Portfolio development foundation
+# Portfolio
 
-A minimal WordPress portfolio foundation using the official Roots Bedrock 1.31.7 scaffold. No portfolio design, sample content or custom blocks have been added.
+Michael Edwards’s portfolio site runs on WordPress and Roots Bedrock, with the Obel theme and Aeon and Rune plugins. It is aimed at potential employers and includes pages for About, Work, Projects and Contact, plus writing published as Posts.
 
 ## Projects
 
@@ -14,9 +14,13 @@ portfolio/                 # directory only; do not initialise a parent reposito
   rune/                    # regular blocks plugin
 ```
 
-GitHub visibility: `portfolio` (the `portfolio` working copy) is private; `obel`, `aeon` and `rune` are public.
+The `portfolio` repository is private. The `obel`, `aeon` and `rune` repositories are public.
 
-The working copies live at `/Users/smededwards/Sites/portfolio`. Each project has independent Git metadata. The repositories are published as [portfolio](https://github.com/smededwards/portfolio) (private), [Obel](https://github.com/smededwards/obel), [Aeon](https://github.com/smededwards/aeon) and [Rune](https://github.com/smededwards/rune) (public). Bedrock's upstream MIT licence remains in `LICENSE.md`; custom packages declare GPL-2.0-or-later.
+About, Work, Projects and Contact are WordPress Pages. Individual work and project entries are child Pages, and writing uses Posts. Obel supplies the block theme, responsive layouts, colour modes and archives. Aeon handles WordPress settings, SEO metadata and contact submissions. Rune supplies the editable Contact form block and the editor canvas colour preview. Each package README describes its features and development setup.
+
+The product names reflect their separate roles: Obel is a shortened form of *obelisk*, suggesting a lasting structural foundation; Aeon comes from Greek *aiōn*, an age or extended passage of time, pointing to continuity and change; Rune refers to symbolic writing, echoing how reusable blocks combine into larger expressions. Together they suggest structure, continuity and expression. This is naming context, not a feature specification.
+
+The four working copies are in `/Users/smededwards/Sites/portfolio`, each with its own Git history. Their repositories are [portfolio](https://github.com/smededwards/portfolio), [Obel](https://github.com/smededwards/obel), [Aeon](https://github.com/smededwards/aeon) and [Rune](https://github.com/smededwards/rune). Bedrock's upstream MIT licence is in `LICENSE.md`; the custom packages use GPL-2.0-or-later.
 
 ## First run
 
@@ -37,9 +41,9 @@ Add this line to `/etc/hosts` using your normal administrator process:
 127.0.0.1 smededwards.dev
 ```
 
-`mkcert -install` modifies the host trust store and may require administrator authentication. These host steps are manual; do not assume they have been completed. Certificates, private keys, passwords and salts are ignored. Never share the mkcert root private key. `.dev` requires HTTPS in browsers.
+`mkcert -install` adds its CA to the host trust store and may ask for administrator authentication. Add the host entry and install the certificate manually. Certificates, private keys, passwords and salts are ignored. Keep the mkcert root private key secret. Browsers require HTTPS for `.dev` sites.
 
-The preferred hostname is `smededwards.dev`, which you do **not** currently own. A hosts entry only overrides your computer; it does not establish ownership. Do not use it publicly unless acquired. The fallback is `local.smededwards.com`: change `LOCAL_HOST`, `WP_HOME`, `WP_SITEURL` together in `.env`, regenerate the nginx configuration, issue the matching certificate and use the matching hosts entry. If WordPress is already installed, use WP-CLI search-replace after exporting the database. No public DNS change is necessary for local use.
+Local WordPress runs at `https://smededwards.dev`; production runs at `https://smededwards.com` on Cloudways. To change the local hostname, update `LOCAL_HOST`, `WP_HOME` and `WP_SITEURL` in `.env`, then regenerate the nginx configuration, issue a matching certificate and update `/etc/hosts`. For an existing database, export it before using WP-CLI search-replace.
 
 ```sh
 make setup
@@ -50,9 +54,9 @@ make install ADMIN_USER=smede ADMIN_EMAIL=you@example.com
 unset ADMIN_PASSWORD
 ```
 
-`make configure` generates random local database passwords and WordPress salts only when `.env` is absent. It validates the URL against the configured hostname and HTTPS port. `make setup` resolves the local Composer manifest, installs locked Node dependencies, builds assets and starts services; it does not install or reset a database. `make install` creates an empty site, removes only WordPress-generated starter posts/pages/comments, activates Obel, Aeon and Rune, and sets permalinks. On an installed database it preserves content and exits. If interrupted after core installation, inspect the database before manually completing activation/cleanup.
+`make configure` creates random local database passwords and WordPress salts if `.env` does not exist, then checks the configured URL, hostname and HTTPS port. `make setup` resolves the local Composer manifest, installs locked Node dependencies for Aeon, Obel and Rune, builds their assets and starts the services. It leaves the database untouched. `make install` creates a new site, removes WordPress starter content, activates Obel, Aeon and Rune, and sets permalinks. If a database is already installed, it preserves its content and exits. If installation stops partway through, inspect the database before completing setup manually.
 
-The initial local administrator is `smede`, with email `admin@example.test`; its generated password is stored in ignored `.local/admin-password` (mode 0600). Read that file locally to sign in, then set your preferred email/password using WP-CLI. The installation has already been performed in this workspace.
+The local administrator is `smede` (`admin@example.test`). Its generated password is in the ignored file `.local/admin-password` (mode 0600). Read it locally to sign in, then change the email and password with WP-CLI. This workspace already has an installed site.
 
 The site opens at `https://smededwards.dev`; admin is `/wp/wp-admin/`. Mailpit is at `http://localhost:8025`. Database and PHP ports are private to Docker. HTTP and HTTPS bind to localhost. Change `HTTP_PORT`, `HTTPS_PORT` and `MAILPIT_PORT` if another local tool occupies them; include a nonstandard HTTPS port in both WordPress URLs.
 
@@ -68,15 +72,15 @@ make composer ARGS='validate --strict'
 make composer-local
 make assets-install
 make assets-build
-make watch PACKAGE=obel       # another terminal for PACKAGE=rune
+make watch PACKAGE=aeon       # also supports PACKAGE=obel or PACKAGE=rune
 make check
 make db-export FILE=backups/before-change.sql
 make db-import FILE=backups/before-change.sql
 ```
 
-`make help` lists commands. WP-CLI accepts arbitrary arguments through `ARGS`. Production Composer commands use `composer.json` and `composer.lock`; local overrides use ignored `composer.local.json` and `composer.local.lock`. Local resolution adds `dev-main` path dependencies without changing the production manifest or lock. Never run production `composer install` over an active local installation without subsequently running `make composer-local` to restore local packages.
+Run `make help` to see the available commands. Pass WP-CLI arguments through `ARGS`. Production Composer commands use `composer.json` and `composer.lock`; local overrides use the ignored `composer.local.json` and `composer.local.lock`. The local manifest links the `dev-main` package copies without changing production dependencies. After running production `composer install` in an active local site, run `make composer-local` to restore those links.
 
-All PHP services mount the same parent directory at `/workspace`, including the three neighbouring packages. Composer's symlinks therefore resolve in PHP, CLI and nginx containers. Edit PHP/templates directly; Node watches assets on demand. Obel extends `@wordpress/scripts` defaults for frontend/editor bundles, loads frontend CSS/JS on the frontend, editor CSS through editor styles and editor JS through the editor hook. Rune preserves automatic block entry discovery and registers future compiled `build/*/block.json` metadata, allowing future blocks to declare editor/frontend assets. Its reserved entry is not enqueued until there is a real feature requiring it.
+All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for frontend and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
 
 The database is in the named `smededwards-portfolio_database` volume. Uploads are in ignored `portfolio/web/app/uploads`. Ordinary stops and rebuilds preserve both. Backups are ignored; copy important backups off this machine separately. The only reset command is deliberately explicit:
 
@@ -84,34 +88,34 @@ The database is in the named `smededwards-portfolio_database` volume. Uploads ar
 make reset CONFIRM=destroy
 ```
 
-It deletes the local database volume and uploads. Do not use it for routine rebuilds.
+This deletes the local database volume and uploads. Use it only when you intend to reset the site.
 
 ## Checks and dependency updates
 
-Each package has its own Composer lock, WPCS configuration and push/PR CI. Obel and Rune also have npm locks, JS/SCSS checks and production builds. The site uses PSR-12 for upstream Bedrock configuration and WPCS for its custom mu-plugin. PHP syntax checks exclude installed dependencies. No behavioural tests have been invented for empty scaffolds.
+Each package has its own Composer lock, WPCS configuration and push/PR CI. Aeon, Obel and Rune also have npm locks, JavaScript and SCSS checks, and production builds. Site checks use PSR-12 for Bedrock configuration, WPCS for the custom mu-plugin and PHP syntax checks for project code.
 
-`make check` checks the assembled local working copies. Site CI checks Bedrock and the assembled site automatically on pushes and pull requests. It installs the tagged packages from the production lock, checks their standards and builds their assets. No repository-variable bootstrap gate is needed.
+`make check` checks the assembled local working copies. Site CI runs on pushes and pull requests. It installs the package versions in the production lock, runs the coding-standard checks and builds package assets.
 
 To intentionally update package dependencies inside containers, use `docker compose run --rm -w /workspace/obel node npm install`, or `docker compose run --rm tools composer -d ../obel update`. Review and commit the changed locks. Routine installs use `npm ci` / `composer install`.
 
-Runtime pins are in `compose.yaml`, Dockerfile and workflows. PHP 8.4 is selected to match the current Cloudways direction; MariaDB 10.11 is supported there. Node 24 LTS satisfies WordPress scripts 37 requirements. Container image digests pin the verified image contents; PHP and database pins can be changed to match the actual hosting platform later. Host packages and Docker's internal apt dependencies should be refreshed deliberately for security updates.
+Runtime versions are set in `compose.yaml`, the Dockerfile and workflows. The containers use PHP 8.4, MariaDB 10.11 and Node 24 LTS for WordPress Scripts 37. Image digests pin container contents. Review PHP, database, host and Docker dependency versions when updating the development environment.
 
 ## Package releases and production dependencies
 
-Obel, Aeon and Rune each have a real `v0.1.0` Git tag. The production Composer manifest uses their public GitHub VCS repositories and the `~0.1.0` release range; `composer.lock` fixes the exact tag and source commit used for deployment. Production installation uses downloaded package archives, with no local path repositories or symlinks.
+The production Composer manifest installs tagged releases of Obel, Aeon and Rune from GitHub. `composer.lock` records the exact versions and source commits. Check `composer.json` and `composer.lock` for the current releases.
 
 For subsequent releases:
 
-1. Make package changes through a PR using Conventional Commits. Confirm package CI passes and merge the reviewed change.
-2. Create and push the next appropriate semantic version tag in that package repository. Do not add a `version` field to its Composer manifest; Composer reads Git tags.
-3. In a clean site checkout/container, update the production requirement range if necessary, then run `composer update smededwards/obel` (or the corresponding package). Commit the changed production lock in a site PR. Review the tag and source reference.
-4. Confirm both site CI jobs pass. Run the manual **Assemble deployment candidate** workflow for the intended site ref to generate a code-only artifact. This workflow does not deploy it to Cloudways.
+1. Make package changes in a PR using Conventional Commits. Merge after package CI passes and the changes are reviewed.
+2. Create and push the next semantic version tag in the package repository. Composer reads versions from Git tags, so do not add a `version` field to `composer.json`.
+3. In a clean site checkout or container, update the requirement range if needed and run `composer update smededwards/obel` (or the package being updated). Review the tag and source reference, then commit the production lock in a site PR.
+4. After both site CI jobs pass, run **Assemble deployment candidate** for the intended site ref. It creates a code-only artifact for manual deployment to Cloudways.
 
-Build output is ignored in source repositories and compiled by site CI. Package tags retain the source and dependency locks needed for building. Local development continues using the ignored path manifest and its separate lock, so neighbouring working copies provide immediate feedback. The production manifest and lock are never replaced by local overrides. Run `make release-check` to verify the production lock uses real semantic version releases.
+Site CI builds package assets; source repositories ignore the generated files. Package releases include the source and dependency locks needed for those builds. Local development uses a separate ignored path manifest and lock to load neighbouring working copies. Keep these local files separate from the production manifest and lock. Run `make release-check` to confirm the production lock uses tagged releases.
 
-## Cloudways deployment foundation
+## Cloudways deployment
 
-The manual workflow currently assembles an artifact only. There is no upload, SSH, remote deletion or production deployment configured. Confirm these hosting requirements before enabling transport:
+The production site runs on Cloudways at `https://smededwards.com`. Changes are reviewed through GitHub and deployment is manual. The **Assemble deployment candidate** workflow creates a code-only artifact; it does not deploy the site. Before automating deployment, confirm these hosting details:
 
 - Actual PHP version/extensions and database engine/version.
 - Application path, SSH/SFTP user and host-key verification, and permission to use an atomic release-directory switch.
@@ -120,7 +124,7 @@ The manual workflow currently assembles an artifact only. There is no upload, SS
 - Bedrock nginx rewrites, HTTPS/proxy behaviour, production domain/certificate, SMTP and cron requirements.
 - Database backup/migration procedure, maintenance handling, retention and tested rollback.
 
-Keep production `.env`, uploads and database outside code replacement. Upload the candidate into a fresh release directory, attach shared paths, validate before switching the active release, and retain the previous release for rollback. Do not blindly rsync-delete a Cloudways application root. The deployment tarball excludes environment files, uploads and caches. No hosting credentials or supported paths have been invented.
+Store the production `.env`, uploads and database separately from application code. An automated deployment should upload to a fresh release directory, attach shared paths, validate the release, switch to it and retain the previous release for rollback. Avoid `rsync --delete` against the Cloudways application root. The deployment tarball excludes environment files, uploads and caches. Hosting credentials and server paths are kept outside this repository.
 
 ## References
 
@@ -130,14 +134,16 @@ Keep production `.env`, uploads and database outside code replacement. Upload th
 - [Cloudways PHP compatibility](https://support.cloudways.com/en/articles/5121577-php-compatibility-on-cloudways-platform)
 - [Cloudways database support](https://support.cloudways.com/en/articles/11721533-what-types-of-databases-does-cloudways-support)
 
-The initial verification run used a temporary certificate, which was removed. In the follow-up setup, mkcert was installed, a new certificate was generated, macOS system trust was installed and normal certificate validation returned HTTP 200. Services are now running. The user has added the hosts-file entry; the homepage and login both return HTTP 200 using normal hostname resolution. Firefox trust has not been configured.
-
-See `VERIFICATION.md` for checks actually run and remaining manual steps.
+See `VERIFICATION.md` for local setup checks and any remaining manual steps.
 
 ## Contribution conventions
 
-Use Conventional Commit subjects and PR titles, for example `feat(theme): add navigation` or `fix(blocks): correct editor styles`. The repository's first commit is the explicit exception: `Initial Commit`. PR CI validates titles and every commit in the PR. See `AGENTS.md` for repository guidance.
+Use Conventional Commit subjects and PR titles, such as `feat(theme): add navigation` or `fix(blocks): correct editor styles`. The first commit is the exception and must be titled `Initial Commit`. PR CI checks the title and commits. See `AGENTS.md` for details.
 
 ## Query Monitor
 
-Query Monitor is a Composer development dependency, installed by the local setup and omitted by `composer install --no-dev`. It is activated on the current local site. On a fresh local database, run `make wp ARGS="plugin activate query-monitor"`. While signed in as an administrator, use Query Monitor in the WordPress toolbar to inspect query timings, PHP errors, hooks and HTTP requests for the current page. Development configuration already enables `SAVEQUERIES` and `WP_DEBUG`.
+Query Monitor is a Composer development dependency. Local setup installs it; `composer install --no-dev` omits it. It is active on the current local site. On a fresh database, activate it with `make wp ARGS="plugin activate query-monitor"`. Signed-in administrators can use its toolbar menu to inspect queries, PHP errors, hooks and HTTP requests. Development configuration enables `SAVEQUERIES` and `WP_DEBUG`.
+
+## Breeze
+
+Breeze is a production Composer dependency. The local Composer manifest excludes it, so the plugin is not installed in local development.
