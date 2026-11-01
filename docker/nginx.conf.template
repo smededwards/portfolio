@@ -5,12 +5,16 @@ server {
 }
 server {
     listen 443 ssl;
+    http2 on;
     server_name __HOST__;
     ssl_certificate /etc/nginx/certs/local.pem;
     ssl_certificate_key /etc/nginx/certs/local-key.pem;
     root /workspace/portfolio/web;
     index index.php;
     client_max_body_size 64m;
+    gzip on;
+    gzip_min_length 1024;
+    gzip_types application/javascript application/json image/svg+xml text/css text/plain;
     location / { try_files $uri $uri/ /index.php?$args; }
     location ~ /\. { deny all; }
     location ~* ^/app/uploads/.*\.php$ { deny all; }
