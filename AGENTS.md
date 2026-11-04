@@ -1,6 +1,6 @@
 # Repository conventions
 
-- Make and test changes locally. Wait for explicit code approval before committing or pushing new feature work, behavioral changes or other substantive updates.
+- Implement changes locally and avoid running the full review/check suite during ordinary iteration. Defer final review and checks until the user asks to open a PR; run them earlier only when the user asks for verification. Wait for explicit code approval before committing or pushing new feature work, behavioural changes or other substantive updates.
 - Use lowercase, hyphenated WordPress-style PHP filenames. Organise PHP classes in responsibility-based directories directly under the project root, without a PHP `src/` wrapper. Use namespaces and separate classes for new custom PHP functionality, with Composer classmap autoloading where needed.
 - Use sentence case for package names: Aeon, Obel and Rune. Keep lowercase code identifiers and package slugs unchanged.
 - Use title case for all headings in website content, including scheduled posts and project pages.
@@ -11,6 +11,8 @@
 - The sole exception is the repository's first commit, whose subject is exactly `Initial Commit`.
 - Keep PR descriptions focused on the core premise and features, using one short paragraph or a few brief bullets plus a short validation line. Omit implementation inventories and work logs unless necessary for review. Use British English in documentation.
 - Never commit secrets, certificates, local environment files, uploads or generated dependency directories.
+- Run the local portfolio through the shared Traefik proxy documented in `README.md` when it is used alongside other Docker projects. Keep host ports 80 and 443 owned by Traefik, and do not reintroduce direct nginx bindings for those ports.
+- Process adaptive Work featured images as light/dark pairs. Keep matching `*-light.svg` and `*-dark.svg` files with the same base filename in uploads; Obel derives the dark URL by replacing `-light.svg` with `-dark.svg`, so database usage checks alone can wrongly classify the dark companion as unused. Before cleanup, check assigned light-image names and preserve each matching dark file. For new company cards, use relevant company imagery under the portfolio gold overlay and centre the adaptive wordmark; do not bake a second logo into the background. Register both variants in the Media Library and verify the card in both colour modes.
 
 ## Engineering principles
 
@@ -21,7 +23,7 @@ Apply these principles while planning, implementing and reviewing every change a
 - **SOLID:** Keep responsibilities focused, dependencies clear and interfaces small. Use extension points and abstractions where they improve maintainability, not as a goal in themselves.
 - **YAGNI:** Build for current requirements and agreed plans. Avoid speculative features, configuration and generalisation.
 
-- After a feature has been agreed and implemented, run the Ponytail `/ponytail-review` review on the completed changes before treating the feature as complete or opening a PR. Address actionable findings and report any deferred findings. Keep this review separate from automated lint and build checks.
+- When the user asks to open a PR, run Ponytail `/ponytail-review` once on the final changes. Address actionable findings and report deferred findings. Do not repeat the full review during implementation; after review fixes, rerun only the affected checks.
 
 ## Branch and release workflow
 
@@ -31,6 +33,7 @@ Apply these principles while planning, implementing and reviewing every change a
 - Track the work merged into each repository's `dev` branch and proactively recommend a semantic version bump when a substantive release batch has accumulated. Base the recommendation on the changes' impact, not a fixed PR or feature count, and explain the proposed bump before preparing release metadata.
 - Keep reviewable changes in their corresponding local repository or GitHub PR. When an isolated worktree is useful, place it under the shared portfolio workspace's `.worktrees/<repo>-<purpose>` directory; do not leave review copies in generic temporary folders.
 - Keep `main` as the GitHub default branch. Avoid stacked PRs unless agreed; merge dependencies into `dev` first.
+- After a feature PR is merged, confirm no open PR depends on its branch and its local working tree is clean, then remove the local and remote feature branches. GitHub may delete the remote branch automatically; squash merges require verifying the merged PR before `git branch -D`. Run `git fetch --prune` to clear stale remote refs. Never delete `dev`, `main` or branches with unmerged work.
 - If an already-open PR fails checks solely because of linting or formatting, fix those issues, commit and push the correction to that PR branch so CI can rerun; this does not need separate code approval. Keep the correction limited to the reported lint/format issues.
 - For new feature work, behavioral fixes or other substantive PR updates, the local approval requirement above still applies before committing or pushing.
 
@@ -38,7 +41,7 @@ Apply these principles while planning, implementing and reviewing every change a
 
 - Document each PHP and JavaScript function/method with an adequate DocBlock/JSDoc: a concise purpose, descriptions for each parameter, and a return description/type when applicable. Add documentation to callbacks when their purpose or contract is not self-evident. Use `//` for ordinary single-line comments; reserve DocBlocks/JSDoc blocks for function documentation and multiline block comments for longer notes or required WordPress translator comments.
 - Group JavaScript imports with comments: WordPress or external dependencies first, then internal dependencies, separated by a blank line. Keep PHP `use` declarations directly after the namespace and alphabetised within their logical groups.
-- Before review, run a custom-code consistency pass: check import and comment conventions, user-facing casing, unused imports and assets, and the repository's PHP, JavaScript, SCSS, build and test checks. Exclude WordPress core, vendor, generated, backup and third-party plugin files.
+- At final PR preparation, run one custom-code consistency pass and the relevant PHP, JavaScript, SCSS, build and test checks. Check import and comment conventions, user-facing casing, and unused imports and assets. Exclude WordPress core, vendor, generated, backup and third-party plugin files. After fixing findings, rerun only affected checks.
 
 - Use BEM for custom HTML and SCSS classes: `block`, `block__element`, `block--modifier` or `block__element--modifier`. Preserve WordPress-owned classes and keep block metadata, saved markup and selectors aligned when renaming classes.
 
