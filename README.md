@@ -35,6 +35,13 @@ mkcert -install
 mkcert -cert-file .docker/certs/local.pem -key-file .docker/certs/local-key.pem smededwards.dev
 ```
 
+This project uses the shared Traefik proxy when it runs alongside Effemeral. Start the proxy from the surrounding development workspace before running `make up`:
+
+```sh
+docker compose -f /Users/smededwards/Developer/effemeral/.docker/traefik/compose.yaml up -d
+make up
+```
+
 Add this line to `/etc/hosts` using your normal administrator process:
 
 ```text
@@ -43,7 +50,7 @@ Add this line to `/etc/hosts` using your normal administrator process:
 
 `mkcert -install` adds its CA to the host trust store and may ask for administrator authentication. Add the host entry and install the certificate manually. Certificates, private keys, passwords and salts are ignored. Keep the mkcert root private key secret. Browsers require HTTPS for `.dev` sites.
 
-Local WordPress runs at `https://smededwards.dev`; production runs at `https://smededwards.com` on Cloudways. To change the local hostname, update `LOCAL_HOST`, `WP_HOME` and `WP_SITEURL` in `.env`, then regenerate the nginx configuration, issue a matching certificate and update `/etc/hosts`. For an existing database, export it before using WP-CLI search-replace.
+Local WordPress runs at `https://smededwards.dev`; production runs at `https://smededwards.com` on Cloudways. Traefik owns host ports 80 and 443 and routes the local hostname to this project's nginx container. To change the local hostname, update `LOCAL_HOST`, `WP_HOME` and `WP_SITEURL` in `.env`, then regenerate the nginx configuration, issue a matching certificate, update the Traefik router labels in `compose.yaml` and update `/etc/hosts`. For an existing database, export it before using WP-CLI search-replace.
 
 ```sh
 make setup
@@ -76,6 +83,13 @@ make watch PACKAGE=aeon       # also supports PACKAGE=obel or PACKAGE=rune
 make check
 make db-export FILE=backups/before-change.sql
 make db-import FILE=backups/before-change.sql
+```
+
+Stop the shared proxy separately when all routed projects are stopped:
+
+```sh
+make down
+docker compose -f /Users/smededwards/Developer/effemeral/.docker/traefik/compose.yaml down
 ```
 
 Run `make help` to see the available commands. Pass WP-CLI arguments through `ARGS`. Production Composer commands use `composer.json` and `composer.lock`; local overrides use the ignored `composer.local.json` and `composer.local.lock`. The local manifest links the `dev-main` package copies without changing production dependencies. After running production `composer install` in an active local site, run `make composer-local` to restore those links.
