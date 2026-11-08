@@ -2,6 +2,17 @@
 
 Michael Edwards’s portfolio site runs on WordPress and Roots Bedrock, with the Obel theme and Aeon and Rune plugins. It is aimed at potential employers and includes pages for About, Work, Projects and Contact, plus writing published as Posts.
 
+## Features
+
+- A block-based portfolio for About, Work, Projects, Posts and Contact content.
+- Local Docker development with linked Aeon, Obel and Rune repositories.
+- Traefik-routed HTTPS local environment with Mailpit email testing.
+- Production Composer dependencies pinned to tagged package releases.
+- Shared front-end and editor styling across the theme and custom blocks.
+- Automated checks for PHP, JavaScript, SCSS, builds and WordPress integration.
+
+Detailed feature notes are available in the [Portfolio Wiki](https://github.com/smededwards/portfolio/wiki/Features), with development guidance in the [Development page](https://github.com/smededwards/portfolio/wiki/Development).
+
 ## Projects
 
 Keep four separate repositories as neighbours:
