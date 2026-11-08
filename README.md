@@ -94,7 +94,7 @@ docker compose -f /Users/smededwards/Developer/effemeral/.docker/traefik/compose
 
 Run `make help` to see the available commands. Pass WP-CLI arguments through `ARGS`. Production Composer commands use `composer.json` and `composer.lock`; local overrides use the ignored `composer.local.json` and `composer.local.lock`. The local manifest links the `dev-main` package copies without changing production dependencies. After running production `composer install` in an active local site, run `make composer-local` to restore those links.
 
-All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for frontend and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
+All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for front-end and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
 
 The database is in the named `smededwards-portfolio_database` volume. Uploads are in ignored `portfolio/web/app/uploads`. Ordinary stops and rebuilds preserve both. Backups are ignored; copy important backups off this machine separately. The only reset command is deliberately explicit:
 

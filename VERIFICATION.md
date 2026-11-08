@@ -30,7 +30,7 @@ The installed local site has Obel active, Aeon/Rune active as regular plugins, z
 - Local package symlinks resolve to `/workspace/obel`, `/workspace/aeon` and `/workspace/rune` inside the PHP/tools mount layout.
 - Regenerating local Composer configuration leaves production `composer.json` and `composer.lock` byte-for-byte unchanged.
 - First WordPress installation succeeds, removes starter content and activates the intended packages. Repeating installation exits without altering existing content.
-- HTTPS homepage returns 200 and frontend CSS returns 200; HTTP redirects with 301. Verification used `curl --resolve` and an explicitly trusted temporary certificate, not host-wide certificate trust.
+- HTTPS homepage returns 200 and front-end CSS returns 200; HTTP redirects with 301. Verification used `curl --resolve` and an explicitly trusted temporary certificate, not host-wide certificate trust.
 - Development `wp_mail` delivery is captured by Mailpit, including after final image recreation.
 - WP-CLI database export and reimport of the freshly generated local database succeed.
 - A temporary database option and upload marker survive normal container recreation. Both markers were removed afterwards. The PHP-FPM runtime user can write uploads.
