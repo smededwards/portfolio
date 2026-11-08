@@ -6,9 +6,10 @@ All notable changes to the portfolio site are documented here.
 
 ### Changed
 
-- Standardised repository workflow, release management and documentation guidance.
-- Refined title-case content and local development asset handling.
+- Route local development through the shared Traefik proxy.
+- Standardise repository workflow, title-case content and release management guidance.
+- Keep package linking and local asset handling aligned with the four-repository setup.
 
-## [0.2.2]
+### Documentation
 
-- Existing release. Historical pull-request detail will be backfilled from GitHub metadata without rewriting published commits.
+- Document branch cleanup, review locations, labels, milestones and release preparation.
