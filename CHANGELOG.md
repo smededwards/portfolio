@@ -4,6 +4,10 @@ All notable changes to the portfolio site are documented here.
 
 ## [Unreleased]
 
+Future changes go here.
+
+## [0.3.0] - 2026-11-08
+
 ### Changed
 
 - Route local development through the shared Traefik proxy.
