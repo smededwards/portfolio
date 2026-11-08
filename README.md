@@ -2,6 +2,8 @@
 
 Michael Edwards’s portfolio site runs on WordPress and Roots Bedrock, with the Obel theme and Aeon and Rune plugins. It is aimed at potential employers and includes pages for About, Work, Projects and Contact, plus writing published as Posts.
 
+Current release: **0.3.0**.
+
 ## Features
 
 - A block-based portfolio for About, Work, Projects, Posts and Contact content.
