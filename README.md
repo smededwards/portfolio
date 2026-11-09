@@ -2,6 +2,19 @@
 
 Michael Edwards’s portfolio site runs on WordPress and Roots Bedrock, with the Obel theme and Aeon and Rune plugins. It is aimed at potential employers and includes pages for About, Work, Projects and Contact, plus writing published as Posts.
 
+Current release: **0.3.0**.
+
+## Features
+
+- A block-based portfolio for About, Work, Projects, Posts and Contact content.
+- Local Docker development with linked Aeon, Obel and Rune repositories.
+- Traefik-routed HTTPS local environment with Mailpit email testing.
+- Production Composer dependencies pinned to tagged package releases.
+- Shared front-end and editor styling across the theme and custom blocks.
+- Automated checks for PHP, JavaScript, SCSS, builds and WordPress integration.
+
+Detailed feature notes are available in the [Portfolio Wiki](https://github.com/smededwards/portfolio/wiki/Features), with development guidance in the [Development page](https://github.com/smededwards/portfolio/wiki/Development).
+
 ## Projects
 
 Keep four separate repositories as neighbours:
@@ -35,6 +48,13 @@ mkcert -install
 mkcert -cert-file .docker/certs/local.pem -key-file .docker/certs/local-key.pem smededwards.dev
 ```
 
+This project uses the shared Traefik proxy when it runs alongside Effemeral. Start the proxy from the surrounding development workspace before running `make up`:
+
+```sh
+docker compose -f /Users/smededwards/Developer/effemeral/.docker/traefik/compose.yaml up -d
+make up
+```
+
 Add this line to `/etc/hosts` using your normal administrator process:
 
 ```text
@@ -43,7 +63,7 @@ Add this line to `/etc/hosts` using your normal administrator process:
 
 `mkcert -install` adds its CA to the host trust store and may ask for administrator authentication. Add the host entry and install the certificate manually. Certificates, private keys, passwords and salts are ignored. Keep the mkcert root private key secret. Browsers require HTTPS for `.dev` sites.
 
-Local WordPress runs at `https://smededwards.dev`; production runs at `https://smededwards.com` on Cloudways. To change the local hostname, update `LOCAL_HOST`, `WP_HOME` and `WP_SITEURL` in `.env`, then regenerate the nginx configuration, issue a matching certificate and update `/etc/hosts`. For an existing database, export it before using WP-CLI search-replace.
+Local WordPress runs at `https://smededwards.dev`; production runs at `https://smededwards.com` on Cloudways. Traefik owns host ports 80 and 443 and routes the local hostname to this project's nginx container. To change the local hostname, update `LOCAL_HOST`, `WP_HOME` and `WP_SITEURL` in `.env`, then regenerate the nginx configuration, issue a matching certificate, update the Traefik router labels in `compose.yaml` and update `/etc/hosts`. For an existing database, export it before using WP-CLI search-replace.
 
 ```sh
 make setup
@@ -78,9 +98,16 @@ make db-export FILE=backups/before-change.sql
 make db-import FILE=backups/before-change.sql
 ```
 
+Stop the shared proxy separately when all routed projects are stopped:
+
+```sh
+make down
+docker compose -f /Users/smededwards/Developer/effemeral/.docker/traefik/compose.yaml down
+```
+
 Run `make help` to see the available commands. Pass WP-CLI arguments through `ARGS`. Production Composer commands use `composer.json` and `composer.lock`; local overrides use the ignored `composer.local.json` and `composer.local.lock`. The local manifest links the `dev-main` package copies without changing production dependencies. After running production `composer install` in an active local site, run `make composer-local` to restore those links.
 
-All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for frontend and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
+All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for front-end and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
 
 The database is in the named `smededwards-portfolio_database` volume. Uploads are in ignored `portfolio/web/app/uploads`. Ordinary stops and rebuilds preserve both. Backups are ignored; copy important backups off this machine separately. The only reset command is deliberately explicit:
 
