@@ -137,21 +137,33 @@ For subsequent releases:
 2. Create and push the next semantic version tag in the package repository. Composer reads versions from Git tags, so do not add a `version` field to `composer.json`.
 3. In a clean site checkout or container, update the requirement range if needed and run `composer update smededwards/obel` (or the package being updated). Review the tag and source reference, then commit the production lock in a site PR.
 4. After both site CI jobs pass, run **Assemble deployment candidate** for the intended site ref. It creates a code-only artifact for manual deployment to Cloudways.
+5. For an approved production release, merge the reviewed PR into `main`. **Deploy production** then runs once for that merge, uploads a code-only release to Cloudways, installs the locked Composer dependencies, builds the package assets on the server, preserves the production environment, uploads and certificate challenge files, flushes the WordPress object cache and verifies the public routes.
 
 Site CI builds package assets; source repositories ignore the generated files. Package releases include the source and dependency locks needed for those builds. Local development uses a separate ignored path manifest and lock to load neighbouring working copies. Keep these local files separate from the production manifest and lock. Run `make release-check` to confirm the production lock uses tagged releases.
 
 ## Cloudways deployment
 
-The production site runs on Cloudways at `https://smededwards.com`. Changes are reviewed through GitHub and deployment is manual. The **Assemble deployment candidate** workflow creates a code-only artifact; it does not deploy the site. Before automating deployment, confirm these hosting details:
+The production site runs on Cloudways. Changes are reviewed through GitHub and deployment is manually approved through the protected `production` environment. **Assemble deployment candidate** remains an artifact-only fallback; **Deploy production** runs only after a pull request is merged into `main` and performs the server-side Composer and npm builds.
+
+Configure these repository or `production` environment settings before using **Deploy production**:
+
+- Secrets: `CLOUDWAYS_SSH_PRIVATE_KEY` and `CLOUDWAYS_KNOWN_HOSTS`.
+- Variables: `CLOUDWAYS_HOST`, `CLOUDWAYS_SSH_USER`, `CLOUDWAYS_SSH_PORT` (optional; defaults to `22`), `CLOUDWAYS_APP_PATH` and `CLOUDWAYS_SITE_URL`. For the Cloudways application user, set `CLOUDWAYS_APP_PATH` to `~/public_html`.
+- A deployment SSH key with only the access required for the application. Do not store passwords, private keys or host details in the repository.
+- A required reviewer on the `production` environment.
+
+The deployment account must be able to write the managed `config/`, `web/` and `vendor/` directories and run PHP, Composer, npm, rsync and WP-CLI. The workflow builds assets on Cloudways because generated `build/` directories are intentionally not committed. It does not require a Git checkout on the application account and does not delete Cloudways’ unrelated root-level WordPress files.
+
+Before enabling the workflow, confirm these hosting details:
 
 - Actual PHP version/extensions and database engine/version.
-- Application path, SSH/SFTP user and host-key verification, and permission to use an atomic release-directory switch.
-- Public document root set to `<release>/web`, not the repository root.
-- Persistent shared `.env`, `web/app/uploads`, writable cache/log paths, and their symlinks in each release.
+- Application path, SSH/SFTP user and host-key verification. The MVP syncs the managed Bedrock paths in place because this Cloudways application does not expose an application-owned Git checkout or release-directory switch.
+- Public document root set to `web`, not the repository root.
+- Persistent `.env`, `web/app/uploads`, writable cache/log paths and any Cloudways-managed root files.
 - Bedrock nginx rewrites, HTTPS/proxy behaviour, production domain/certificate, SMTP and cron requirements.
 - Database backup/migration procedure, maintenance handling, retention and tested rollback.
 
-Store the production `.env`, uploads and database separately from application code. An automated deployment should upload to a fresh release directory, attach shared paths, validate the release, switch to it and retain the previous release for rollback. Avoid `rsync --delete` against the Cloudways application root. The deployment tarball excludes environment files, uploads and caches. Hosting credentials and server paths are kept outside this repository.
+Store the production `.env`, uploads and database separately from application code. The MVP deployment builds in a temporary directory, syncs only `config/`, `web/` and `vendor/`, preserves environment/uploads/cache paths and leaves unrelated Cloudways root files untouched. The deployment tarball excludes environment files, uploads and caches. Hosting credentials and server paths are kept outside this repository.
 
 ## References
 
