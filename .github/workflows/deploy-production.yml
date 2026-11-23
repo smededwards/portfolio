@@ -1,8 +1,8 @@
 name: Deploy production
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -14,16 +14,11 @@ concurrency:
 jobs:
   deploy:
     name: Build and deploy on Cloudways
-    if: >-
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: production
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
 
       - name: Prepare SSH
         env:
