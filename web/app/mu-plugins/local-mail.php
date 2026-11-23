@@ -5,12 +5,12 @@
  * @package Portfolio
  */
 
-if ( 'development' !== WP_ENV ) {
+if ( WP_ENV !== 'development' ) {
 	return;
 }
 add_action(
 	'phpmailer_init',
-	static function ( $mailer ) {
+	static function ( $mailer ): void {
 		$mailer->isSMTP();
 		$mailer->Host        = 'mailpit'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$mailer->Port        = 1025; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
