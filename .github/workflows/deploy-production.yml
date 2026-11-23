@@ -109,6 +109,7 @@ jobs:
           rsync -rlt --delete --omit-dir-times \
             "$release_dir/vendor/" "$app_path/vendor/"
           rsync -lt "$release_dir/composer.json" "$release_dir/composer.lock" "$app_path/"
+          cd "$app_path"
           "$HOME/.cw/bin/wp" cache flush --path="$app_path"
           REMOTE
 
