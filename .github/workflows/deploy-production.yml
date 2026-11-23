@@ -1,0 +1,126 @@
+name: Deploy production
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy on Cloudways
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Prepare SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.CLOUDWAYS_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.CLOUDWAYS_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$KNOWN_HOSTS"
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+
+      - name: Build and deploy on the server
+        env:
+          DEPLOY_HOST: ${{ vars.CLOUDWAYS_HOST }}
+          DEPLOY_PORT: ${{ vars.CLOUDWAYS_SSH_PORT || 22 }}
+          DEPLOY_USER: ${{ vars.CLOUDWAYS_SSH_USER }}
+          DEPLOY_PATH: ${{ vars.CLOUDWAYS_APP_PATH }}
+          DEPLOY_SITE_URL: ${{ vars.CLOUDWAYS_SITE_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_HOST"
+          test -n "$DEPLOY_USER"
+          test -n "$DEPLOY_PATH"
+          test -n "$DEPLOY_SITE_URL"
+
+          ssh_args=(-o BatchMode=yes -o StrictHostKeyChecking=yes -p "$DEPLOY_PORT")
+          archive="$RUNNER_TEMP/portfolio-${GITHUB_RUN_ID}.tar.gz"
+          tar --exclude='.git' \
+            --exclude='.env*' \
+            --exclude='*/node_modules' \
+            --exclude='*/node_modules/*' \
+            --exclude='*/uploads' \
+            --exclude='*/uploads/*' \
+            --exclude='*/cache' \
+            --exclude='*/cache/*' \
+            --exclude='vendor' \
+            -czf "$archive" config web composer.json composer.lock
+
+          remote_archive="public_html/.portfolio-${GITHUB_RUN_ID}.tar.gz"
+          scp_args=(-o BatchMode=yes -o StrictHostKeyChecking=yes -P "$DEPLOY_PORT")
+          scp "${scp_args[@]}" "$archive" "$DEPLOY_USER@$DEPLOY_HOST:$remote_archive"
+          ssh "${ssh_args[@]}" "$DEPLOY_USER@$DEPLOY_HOST" bash -s -- "$remote_archive" "$DEPLOY_PATH" <<'REMOTE'
+          set -euo pipefail
+          archive=$1
+          app_path=$2
+
+          if [[ "$app_path" == "~/"* ]]; then
+            app_path="$HOME/${app_path#~/}"
+          fi
+
+          release_dir=$(mktemp -d /tmp/portfolio-release.XXXXXX)
+          composer_cache=$(mktemp -d /tmp/portfolio-composer-cache.XXXXXX)
+          npm_cache=$(mktemp -d /tmp/portfolio-npm-cache.XXXXXX)
+          cleanup() {
+            rm -rf "$release_dir" "$composer_cache" "$npm_cache" "$HOME/$archive"
+          }
+          trap cleanup EXIT
+          tar -xzf "$HOME/$archive" -C "$release_dir"
+          cd "$release_dir"
+
+          export COMPOSER_CACHE_DIR="$composer_cache"
+          export npm_config_cache="$npm_cache"
+          php8.4 /usr/local/bin/composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+          for package in web/app/plugins/aeon web/app/themes/obel web/app/plugins/rune; do
+            if [ -f "$package/package-lock.json" ]; then
+              (
+                cd "$package"
+                npm ci
+                npm run build
+                rm -rf node_modules
+              )
+            fi
+          done
+
+          rsync -a --delete \
+            "$release_dir/config/" "$app_path/config/"
+          rsync -a --delete \
+            --exclude='app/uploads/' \
+            --exclude='app/cache/' \
+            --exclude='.well-known/' \
+            "$release_dir/web/" "$app_path/web/"
+          rsync -a --delete \
+            "$release_dir/vendor/" "$app_path/vendor/"
+          rsync -a "$release_dir/composer.json" "$release_dir/composer.lock" "$app_path/"
+          "$HOME/.cw/bin/wp" cache flush --path="$app_path"
+          REMOTE
+
+          for path in / /about/ /work/ /projects/ /posts/ /contact/; do
+            curl --fail --silent --show-error --location --retry 3 \
+              "$DEPLOY_SITE_URL$path?deployment=${GITHUB_RUN_ID}" > /dev/null
+          done
+
+      - name: Report cache handling
+        run: echo 'WordPress object cache was flushed. Purge Cloudways/Varnish from the hosting control panel if cached HTML remains.'
