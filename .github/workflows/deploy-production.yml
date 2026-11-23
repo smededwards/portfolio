@@ -99,16 +99,16 @@ jobs:
             fi
           done
 
-          rsync -a --delete \
+          rsync -rlt --delete --omit-dir-times \
             "$release_dir/config/" "$app_path/config/"
-          rsync -a --delete \
+          rsync -rlt --delete --omit-dir-times \
             --exclude='app/uploads/' \
             --exclude='app/cache/' \
             --exclude='.well-known/' \
             "$release_dir/web/" "$app_path/web/"
-          rsync -a --delete \
+          rsync -rlt --delete --omit-dir-times \
             "$release_dir/vendor/" "$app_path/vendor/"
-          rsync -a "$release_dir/composer.json" "$release_dir/composer.lock" "$app_path/"
+          rsync -lt "$release_dir/composer.json" "$release_dir/composer.lock" "$app_path/"
           "$HOME/.cw/bin/wp" cache flush --path="$app_path"
           REMOTE
 
