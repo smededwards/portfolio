@@ -6,6 +6,12 @@ All notable changes to the portfolio site are documented here.
 
 Future changes go here.
 
+## [0.3.1] - 2026-11-23
+
+### Security
+
+- Update the production package lock to the patched Aeon, Obel and Rune releases.
+
 ## [0.3.0] - 2026-11-08
 
 ### Changed

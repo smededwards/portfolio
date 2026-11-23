@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fd22e7b2797c03f2e993c258273919d",
+    "content-hash": "9b333f21d9b1f7852f63ef839207a684",
     "packages": [
         {
             "name": "composer/installers",
@@ -707,16 +707,16 @@
         },
         {
             "name": "smededwards/aeon",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smededwards/aeon.git",
-                "reference": "ef391b8fbddd4829bdd1946c8ab2c4bdd92b87e4"
+                "reference": "09a8a4a986cb8c99f451b1f58f664dd0f3e90549"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/aeon/zipball/ef391b8fbddd4829bdd1946c8ab2c4bdd92b87e4",
-                "reference": "ef391b8fbddd4829bdd1946c8ab2c4bdd92b87e4",
+                "url": "https://api.github.com/repos/smededwards/aeon/zipball/09a8a4a986cb8c99f451b1f58f664dd0f3e90549",
+                "reference": "09a8a4a986cb8c99f451b1f58f664dd0f3e90549",
                 "shasum": ""
             },
             "require": {
@@ -755,23 +755,23 @@
             "description": "Aeon portfolio plugin",
             "homepage": "https://github.com/smededwards/aeon",
             "support": {
-                "source": "https://github.com/smededwards/aeon/tree/v0.4.0",
+                "source": "https://github.com/smededwards/aeon/tree/v0.4.1",
                 "issues": "https://github.com/smededwards/aeon/issues"
             },
-            "time": "2026-11-09T01:02:04+00:00"
+            "time": "2026-11-23T10:08:04+00:00"
         },
         {
             "name": "smededwards/obel",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smededwards/obel.git",
-                "reference": "051fa6d40ce2650b6b306fb8362bbc84ab881458"
+                "reference": "42f9415ec1ed8bf1e6aa5a9814b0cb2c0c7729ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/obel/zipball/051fa6d40ce2650b6b306fb8362bbc84ab881458",
-                "reference": "051fa6d40ce2650b6b306fb8362bbc84ab881458",
+                "url": "https://api.github.com/repos/smededwards/obel/zipball/42f9415ec1ed8bf1e6aa5a9814b0cb2c0c7729ed",
+                "reference": "42f9415ec1ed8bf1e6aa5a9814b0cb2c0c7729ed",
                 "shasum": ""
             },
             "require": {
@@ -802,23 +802,23 @@
             "description": "Obel portfolio theme",
             "homepage": "https://github.com/smededwards/obel",
             "support": {
-                "source": "https://github.com/smededwards/obel/tree/v0.4.0",
+                "source": "https://github.com/smededwards/obel/tree/v0.4.1",
                 "issues": "https://github.com/smededwards/obel/issues"
             },
-            "time": "2026-11-09T01:02:15+00:00"
+            "time": "2026-11-23T10:08:12+00:00"
         },
         {
             "name": "smededwards/rune",
-            "version": "v0.3.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smededwards/rune.git",
-                "reference": "7cfde1b702fd8cc27725782b5b83930891ec3de8"
+                "reference": "fdd9f0fafb86dea6148a03754b5feadee9000969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smededwards/rune/zipball/7cfde1b702fd8cc27725782b5b83930891ec3de8",
-                "reference": "7cfde1b702fd8cc27725782b5b83930891ec3de8",
+                "url": "https://api.github.com/repos/smededwards/rune/zipball/fdd9f0fafb86dea6148a03754b5feadee9000969",
+                "reference": "fdd9f0fafb86dea6148a03754b5feadee9000969",
                 "shasum": ""
             },
             "require": {
@@ -857,10 +857,10 @@
             "description": "Rune portfolio plugin",
             "homepage": "https://github.com/smededwards/rune",
             "support": {
-                "source": "https://github.com/smededwards/rune/tree/v0.3.0",
+                "source": "https://github.com/smededwards/rune/tree/v0.3.1",
                 "issues": "https://github.com/smededwards/rune/issues"
             },
-            "time": "2026-11-09T01:02:24+00:00"
+            "time": "2026-11-23T10:08:16+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
