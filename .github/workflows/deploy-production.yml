@@ -104,6 +104,7 @@ jobs:
           rsync -rlt --delete --omit-dir-times \
             --exclude='app/uploads/' \
             --exclude='app/cache/' \
+            --exclude='app/plugins/breeze/' \
             --exclude='.well-known/' \
             "$release_dir/web/" "$app_path/web/"
           rsync -rlt --delete --omit-dir-times \
