@@ -48,6 +48,8 @@ mkcert -install
 mkcert -cert-file .docker/certs/local.pem -key-file .docker/certs/local-key.pem smededwards.dev
 ```
 
+The Docker tools container also uses the mkcert root CA when WP-CLI connects back to the local HTTPS site. `MKCERT_ROOT_CA` is generated in `.env` from `.env.example`; update it if mkcert stores the root certificate in a different location.
+
 This project uses the shared Traefik proxy when it runs alongside Effemeral. Start the proxy from the surrounding development workspace before running `make up`:
 
 ```sh

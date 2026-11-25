@@ -9,9 +9,16 @@ x-php: &php
   working_dir: /workspace/portfolio
   volumes:
     - ../:/workspace
+    - "${MKCERT_ROOT_CA}:/usr/local/share/ca-certificates/mkcert-rootCA.crt:ro"
+    - ./docker/php/local-ca.ini:/usr/local/etc/php/conf.d/local-ca.ini:ro
+  extra_hosts:
+    - "${LOCAL_HOST}:host-gateway"
   environment:
     WP_CLI_ALLOW_ROOT: '1'
     WP_CLI_CONFIG_PATH: /workspace/portfolio/wp-cli.yml
+    AEON_FLUX_SSL_CERTIFICATES: /usr/local/share/ca-certificates/mkcert-rootCA.crt
+    CURL_CA_BUNDLE: /usr/local/share/ca-certificates/mkcert-rootCA.crt
+    SSL_CERT_FILE: /usr/local/share/ca-certificates/mkcert-rootCA.crt
 services:
   php:
     <<: *php
