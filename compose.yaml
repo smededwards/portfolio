@@ -11,6 +11,7 @@ x-php: &php
     - ../:/workspace
   environment:
     WP_CLI_ALLOW_ROOT: '1'
+    WP_CLI_CONFIG_PATH: /workspace/portfolio/wp-cli.yml
 services:
   php:
     <<: *php
