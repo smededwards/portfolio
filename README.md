@@ -10,7 +10,7 @@ Current release: **0.3.1**.
 - Local Docker development with linked Aeon, Obel and Rune repositories.
 - Traefik-routed HTTPS local environment with Mailpit email testing.
 - Production Composer dependencies pinned to tagged package releases.
-- Shared front-end and editor styling across the theme and custom blocks.
+- Shared Front-End and editor styling across the theme and custom blocks.
 - Automated checks for PHP, JavaScript, SCSS, builds and WordPress integration.
 
 Detailed feature notes are available in the [Portfolio Wiki](https://github.com/smededwards/portfolio/wiki/Features), with development guidance in the [Development page](https://github.com/smededwards/portfolio/wiki/Development).
@@ -98,6 +98,19 @@ make db-export FILE=backups/before-change.sql
 make db-import FILE=backups/before-change.sql
 ```
 
+For a direct project-local wrapper, use `./scripts/wp` from the Portfolio root:
+
+```sh
+./scripts/wp aeon flux status
+./scripts/wp aeon flux pull <local-id> <remote-id>
+```
+
+If you want the bare `wp` spelling while working in this repository, add a local shell alias in your terminal session:
+
+```sh
+alias wp='./scripts/wp'
+```
+
 Stop the shared proxy separately when all routed projects are stopped:
 
 ```sh
@@ -105,9 +118,9 @@ make down
 docker compose -f /Users/smededwards/Developer/effemeral/.docker/traefik/compose.yaml down
 ```
 
-Run `make help` to see the available commands. Pass WP-CLI arguments through `ARGS`. Production Composer commands use `composer.json` and `composer.lock`; local overrides use the ignored `composer.local.json` and `composer.local.lock`. The local manifest links the `dev-main` package copies without changing production dependencies. After running production `composer install` in an active local site, run `make composer-local` to restore those links.
+Run `make help` to see the available commands. Pass WP-CLI arguments through `ARGS`. Run WP-CLI through `make wp` or the Docker tools container; the database hostname `db` is private to the Docker network, so a host-installed `wp` command cannot connect directly. For example, use `make wp ARGS='aeon flux status'`. The tools container sets `WP_CLI_CONFIG_PATH`, so WP-CLI also finds the site configuration when a package working directory such as `/workspace/aeon` is selected. Production Composer commands use `composer.json` and `composer.lock`; local overrides use the ignored `composer.local.json` and `composer.local.lock`. The local manifest links the `dev-main` package copies without changing production dependencies. After running production `composer install` in an active local site, run `make composer-local` to restore those links.
 
-All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for front-end and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
+All PHP services mount the parent directory at `/workspace`, so Composer links resolve in the PHP, CLI and nginx containers. Edit PHP and templates directly; Node watches the package assets. Obel uses `@wordpress/scripts` for Front-End and editor bundles, loading each stylesheet and script in its relevant context. Rune discovers block entries and registers compiled `build/*/block.json` files. Its general-purpose entry remains unused until a feature needs it.
 
 The database is in the named `smededwards-portfolio_database` volume. Uploads are in ignored `portfolio/web/app/uploads`. Ordinary stops and rebuilds preserve both. Backups are ignored; copy important backups off this machine separately. The only reset command is deliberately explicit:
 
