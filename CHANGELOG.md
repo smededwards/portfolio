@@ -6,6 +6,13 @@ All notable changes to the portfolio site are documented here.
 
 Future changes go here.
 
+## [0.4.0] - 2026-11-25
+
+### Added
+
+- Add the Flux environment synchronisation integration through the Aeon package.
+- Release the current Aeon, Obel and Rune package versions used by the site.
+
 ## [0.3.1] - 2026-11-23
 
 ### Security
