@@ -192,7 +192,7 @@ See `VERIFICATION.md` for local setup checks and any remaining manual steps.
 
 ## Contribution conventions
 
-Use Conventional Commit subjects and PR titles, such as `feat(theme): add navigation` or `fix(blocks): correct editor styles`. The first commit is the exception and must be titled `Initial Commit`. PR CI checks the title and commits. See `AGENTS.md` for details.
+Use Conventional Commit subjects and PR titles, such as `feat(theme): add navigation` or `fix(blocks): correct editor styles`. The first commit is the exception and must be titled `Initial Commit`. PR CI checks the title, commits, labels and milestones. Every PR needs one `type:*` label, at least one `area:*` label, one `semver:*` impact label and a release, initiative or maintenance milestone. See `AGENTS.md` for details.
 
 ## Query Monitor
 
